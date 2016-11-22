@@ -1,11 +1,12 @@
-package hfe;
-component div {
-  prop name;
-  slot default {
-    packageName hfe;
-    componentName input;
-  }
-  event select {
-    String abc "this is first paramter";
+package hfe {
+  component div {
+    prop name;
+    slot default {
+      packageName hfe;
+      componentName input;
+    }
+    event select {
+      String abc "this is first paramter";
+    }
   }
 }

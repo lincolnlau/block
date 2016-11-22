@@ -1,7 +1,7 @@
 grammar Component;
 
 packageDeclaration
-  :  'package' Identifier ';'
+  :  'package' Identifier ' {'  componentDeclaration*  '}'
   ;
 
 componentDeclaration
@@ -69,8 +69,6 @@ EVENT : 'event';
 SLOT : 'slot';
 
 
-DESCRIPTION : '"'(~[\"])*?'"';
-
 DOT : '.';
 STRING : 'String';
 NUMBER : 'Number';
@@ -87,6 +85,7 @@ OpenBrace                  : '{';
 CloseBrace                 : '}';
 SemiColon                  : ';';
 Identifier : [a-z][a-zA-Z0-9_$]*;
+DESCRIPTION : '"'(~[\"])*?'"';
 WS :  [ \t\r\n\u000C]+ -> skip ;
 COMMENT :   '/*' .*? '*/' -> skip ;
 LINE_COMMENT :   '//' ~[\r\n]* -> skip ;
