@@ -2,8 +2,8 @@
 <div>
   <form class="form-horizontal">
     <div v-for="item in properties" class="form-group">
-      <label class="control-label col-md-6">{{item.text}}</label>
-      <div class="col-md-6"><input class="form-control"/></div>
+      <label class="col-md-4 control-label">{{item.text}}</label>
+      <div class="col-md-8"><input class="form-control"/></div>
     </div>
   </from>
 </div>
