@@ -4,6 +4,7 @@
       <component-list :items="components"></component-list>
     </div>
     <div class="mainpanel">
+      <div class="iphone"></div>
     </div>
     <div class="rightpanel">
       <div class="onerow">This is a component's description</div>
@@ -57,6 +58,13 @@ export default {
 html, body {
   height: 100%;
   margin: 0;
+}
+
+.iphone {
+    width: 320px;
+    height: 568px;
+    border: 1px solid #ccc;
+    margin:40px auto;
 }
 
 /* Prevent the text contents of draggable elements from being selectable. */

@@ -2,7 +2,7 @@
 <div>
   <div class="heading">组件库</div>
   <div class="componentlist-body">
-    <ul class="list-group">
+    <ul class="list-group" v-dragula="items">
       <li class="list-group-item" v-for="item in items" draggable>{{item.name}}</li>
     </ul>
   </div>

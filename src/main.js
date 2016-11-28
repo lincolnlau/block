@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App'
 import VueDragula from 'vue-dragula'
 
-
 Vue.use(VueDragula)
 
 /* eslint-disable no-new */
