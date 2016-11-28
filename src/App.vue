@@ -4,7 +4,7 @@
       <component-list :items="components"></component-list>
     </div>
     <div class="mainpanel">
-      <div class="iphone"></div>
+      <simulator class="iphone" :items="selectdItmes"></simulator>
     </div>
     <div class="rightpanel">
       <div class="onerow">This is a component's description</div>
@@ -14,10 +14,9 @@
 </template>
 
 <script>
-// import Hello from './components/Hello'
 import ComponentList from './components/ComponentList'
+import Simulator from './components/Simulator'
 import PropsEditor from './components/PropsEditor'
-import 'bootstrap/dist/css/bootstrap.min.css'
 export default {
   name: 'app',
   data: function () {
@@ -43,12 +42,14 @@ export default {
         {
           name: 'time'
         }
-      ]
+      ],
+      selectdItmes: []
     }
   },
   components: {
    //  Hello,
     ComponentList,
+    Simulator,
     PropsEditor
   }
 }

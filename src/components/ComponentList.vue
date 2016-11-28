@@ -2,9 +2,9 @@
 <div>
   <div class="heading">组件库</div>
   <div class="componentlist-body">
-    <ul class="list-group" v-dragula="items">
-      <li class="list-group-item" v-for="item in items" draggable>{{item.name}}</li>
-    </ul>
+    <div class="list-group" v-dragula="items" bag="simulator">
+      <button class="list-group-item" v-for="item in items">{{item.name}}</button>
+    </div>
   </div>
 </div>
 </template>
@@ -16,6 +16,9 @@ export default {
       type: Array,
       required: true
     }
+  },
+  create: function () {
+    // console.log()
   }
 }
 </script>

@@ -3,5 +3,8 @@
   "parserOptions": {
     "sourceType": "module",
     "allowImportExportEverywhere": false
+  },
+  "globals": {
+    "Vue": true
   }
 }
