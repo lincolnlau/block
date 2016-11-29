@@ -2,13 +2,15 @@
 <div>
   <div class="heading">组件库</div>
   <div class="componentlist-body">
-    <div class="list-group" v-dragula="items" bag="simulator">
-      <button class="list-group-item" v-for="item in items">{{item.name}}</button>
+    <div class="list-group componentList" :dragula="items" bag="simulator">
+      <button class="list-group-item" v-for="item in items" :key="item.id">{{item.name}}</button>
     </div>
   </div>
 </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'componentList',
   props: {
@@ -17,9 +19,16 @@ export default {
       required: true
     }
   },
-  create: function () {
-    // console.log()
-  }
+  /*
+  computed: {
+    ...mapGetters({
+      items: 'componentModels'
+    })
+  },
+  */
+  methods: mapActions([
+    'addComponentModel'
+  ])
 }
 </script>
 

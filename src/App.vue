@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <div class="leftpanel">
-      <component-list :items="components"></component-list>
+      <component-list :items="componentModels"></component-list>
     </div>
     <div class="mainpanel">
-      <simulator class="iphone" :items="selectdItmes"></simulator>
+      <simulator class="iphone" :items="pageComponents"></simulator>
     </div>
     <div class="rightpanel">
       <div class="onerow">This is a component's description</div>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ComponentList from './components/ComponentList'
 import Simulator from './components/Simulator'
 import PropsEditor from './components/PropsEditor'
@@ -25,7 +26,8 @@ export default {
         {id: 1, text: 'name'},
         {id: 2, text: 'value'},
         {id: 3, text: 'age'}
-      ],
+      ]
+      /*,
       components: [
         {
           name: 'textInput'
@@ -44,6 +46,7 @@ export default {
         }
       ],
       selectdItmes: []
+      */
     }
   },
   components: {
@@ -51,6 +54,12 @@ export default {
     ComponentList,
     Simulator,
     PropsEditor
+  },
+  computed: {
+    ...mapGetters({
+      componentModels: 'componentModels',
+      pageComponents: 'pageComponents'
+    })
   }
 }
 </script>

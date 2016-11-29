@@ -1,11 +1,11 @@
 <template>
-<div class="list-group" v-dragula="items" bag="simulator">
-  <button class="list-group-item" v-for="item in items" transition="scale">{{item.name}}</button>
+<div class="list-group dragula-container" :dragula="items" bag="simulator">
+  <button class="list-group-item" v-for="item in items" :key="item.id" transition="scale">{{item.name}}</button>
 </div>
 </template>
 
 <script>
-import Vue from 'vue'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'simulator',
@@ -15,21 +15,12 @@ export default {
       required: true
     }
   },
-  ready: function () {
-    console.log('hello')
-    Vue.vueDragula.eventBus.$on(
-      'drop',
-      function (args) {
-        console.log('drop: ' + args[0])
-      }
-    )
-    Vue.vueDragula.eventBus.$on(
-      'dropModel',
-      function (args) {
-        console.log('dropModel: ' + args)
-      }
-    )
-  }
+  computed: mapGetters([
+    'pageComponents'
+  ]),
+  methods: mapActions([
+    'addComponent'
+  ])
 }
 </script>
 
