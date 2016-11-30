@@ -1,6 +1,6 @@
 <template>
-<div class="list-group dragula-container" :dragula="items" bag="simulator">
-  <button class="list-group-item" v-for="item in items" :key="item.id" transition="scale">{{item.name}}</button>
+<div class="list-group">
+  <button class="list-group-item" v-for="item in items">{{item.name}}</button>
 </div>
 </template>
 
@@ -18,9 +18,16 @@ export default {
   computed: mapGetters([
     'pageComponents'
   ]),
-  methods: mapActions([
-    'addComponent'
-  ])
+  methods: {
+    ...mapActions([
+      'addComponent'
+    ]),
+
+    add (component) {
+      console.log(component)
+    }
+
+  }
 }
 </script>
 

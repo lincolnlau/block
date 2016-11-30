@@ -1,7 +1,11 @@
 import * as types from '../mutation-types'
 
 const state = {
-  pageComponents: []
+  pageComponents: [
+    {
+      name: 'combox'
+    }
+  ]
 }
 
 // getters
@@ -12,6 +16,7 @@ const getters = {
 // actions
 const actions = {
   addComponent ({commit, state}, newComponentModel) {
+    console.log(newComponentModel)
     state.pageComponents.push(newComponentModel)
     commit(types.ADD_TO_PAGE)
   }

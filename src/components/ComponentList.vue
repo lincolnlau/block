@@ -2,15 +2,13 @@
 <div>
   <div class="heading">组件库</div>
   <div class="componentlist-body">
-    <div class="list-group componentList" :dragula="items" bag="simulator">
-      <button class="list-group-item" v-for="item in items" :key="item.id">{{item.name}}</button>
+    <div class="list-group componentList" >
+      <button class="list-group-item" v-for="item in items" v-draggable:x="{index: $index, dragged: 'dragged'}">{{item.name}}</button>
     </div>
   </div>
 </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
-
 export default {
   name: 'componentList',
   props: {
@@ -19,16 +17,11 @@ export default {
       required: true
     }
   },
-  /*
-  computed: {
-    ...mapGetters({
-      items: 'componentModels'
-    })
-  },
-  */
-  methods: mapActions([
-    'addComponentModel'
-  ])
+  methods: {
+    sort (items, $index, $droptag, $dropdata) {
+      console.log('abc')
+    }
+  }
 }
 </script>
 

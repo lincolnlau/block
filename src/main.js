@@ -2,12 +2,16 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'vue-dragula/styles/dragula.min.css'
 
 import Vue from 'vue'
-import App from './App'
-import VueDragula from 'vue-dragula'
-
 import store from './store'
-
-Vue.use(VueDragula)
+import App from './App'
+// import VueDragula from 'vue-dragula'
+// Vue.use(VueDragula)
+import VueDnD from 'vue-dnd'
+// Vue.use(VueDnD)
+// Vue.use(VueDnD)
+VueDnD.install(Vue)
+// console.log(VueDnD)
+// Vue.use(require('vue-dnd'))
 
 /* eslint-disable no-new */
 new Vue({
@@ -15,8 +19,9 @@ new Vue({
   store,
   template: '<App/>',
   components: { App },
-
   created: function () {
+    // const _self = this
+    /*
     Vue.vueDragula.options('simulator', {
       models: [],
       copy: function (el, source) {
@@ -29,14 +34,25 @@ new Vue({
         return target.classList.contains('dragula-container')
       }
     })
+    Vue.vueDragula.eventBus.$on(
+      'drag',
+      function (args) {
+        // var index = [].indexOf.call(element.parentNode.children, element);
+        // console.log('drag from', index, element, source);
+        // from = index;
+      }
+    )
 
     Vue.vueDragula.eventBus.$on(
       'drop',
       function (args) {
-        const bag = args[0]
+        // const bag = args[0]
         const el = args[1]
         el.className += ' active'
-        console.log(Vue.vueDragula.find(bag))
+        console.log(args)
+        // const componentInstance =
+        // _self.$store.dispatch('addComponent', component);
+        // console.log(Vue.vueDragula.find(bag))
       }
     )
     Vue.vueDragula.eventBus.$on(
@@ -46,5 +62,6 @@ new Vue({
         // console.log('dropModel: ' + args)
       }
     )
+    */
   }
 })
