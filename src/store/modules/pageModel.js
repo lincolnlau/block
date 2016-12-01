@@ -15,15 +15,13 @@ const getters = {
 
 // actions
 const actions = {
-  addComponent ({commit, state}, newComponentModel) {
-    console.log(newComponentModel)
-    state.pageComponents.push(newComponentModel)
-    commit(types.ADD_TO_PAGE)
+  addComponent ({commit}, newComponentModel) {
+    commit(types.ADD_TO_PAGE, newComponentModel)
   }
 }
 
 const mutations = {
-  [types.ADD_TO_PAGE] (state, { component }) {
+  [types.ADD_TO_PAGE] (state, component) {
     state.pageComponents.push(component)
   }
 }

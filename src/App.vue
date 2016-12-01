@@ -75,6 +75,7 @@ html, body {
     height: 568px;
     border: 1px solid #ccc;
     margin:40px auto;
+    overflow: auto;
 }
 
 /* Prevent the text contents of draggable elements from being selectable. */

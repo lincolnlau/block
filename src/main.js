@@ -2,14 +2,20 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'vue-dragula/styles/dragula.min.css'
 
 import Vue from 'vue'
+import Dragdrop from './directives/dragdrop'
 import store from './store'
 import App from './App'
+
+const Draggable = Dragdrop.Draggable
+const Dropzone = Dragdrop.Dropzone
+Vue.directive(Draggable.name, Draggable)
+Vue.directive(Dropzone.name, Dropzone)
 // import VueDragula from 'vue-dragula'
 // Vue.use(VueDragula)
-import VueDnD from 'vue-dnd'
+// import VueDnD from 'vue-dnd'
 // Vue.use(VueDnD)
 // Vue.use(VueDnD)
-VueDnD.install(Vue)
+// VueDnD.install(Vue)
 // console.log(VueDnD)
 // Vue.use(require('vue-dnd'))
 

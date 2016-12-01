@@ -1,5 +1,5 @@
 <template>
-<div class="list-group">
+<div class="list-group" v-dropzone:x="drop">
   <button class="list-group-item" v-for="item in items">{{item.name}}</button>
 </div>
 </template>
@@ -22,11 +22,9 @@ export default {
     ...mapActions([
       'addComponent'
     ]),
-
-    add (component) {
-      console.log(component)
+    drop (dropdata) {
+      this.$store.dispatch('addComponent', dropdata.item)
     }
-
   }
 }
 </script>
