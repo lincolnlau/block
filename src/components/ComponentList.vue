@@ -3,7 +3,7 @@
   <div class="heading">组件库</div>
   <div class="componentlist-body">
     <div class="list-group componentList" >
-      <button class="list-group-item" v-for="item in items" v-draggable:x="{index: $index, dragged: 'dragged', item: item}">{{item.name}}</button>
+      <button class="list-group-item" v-for="item in items" v-draggable:x="{dragged: 'dragged', item: item}">{{item.name}}</button>
     </div>
   </div>
 </div>
