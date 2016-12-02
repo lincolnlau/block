@@ -1,6 +1,7 @@
 <template>
 <div class="list-group" v-dropzone:x="drop">
-  <button class="list-group-item" v-for="item in items">{{item.name}}</button>
+  <!--button class="list-group-item" v-for="item in items">{{item.name}}</button-->
+  <tree-node v-for="item in items" :model="item"></tree-node>
 </div>
 </template>
 

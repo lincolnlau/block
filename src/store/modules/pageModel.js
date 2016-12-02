@@ -3,7 +3,12 @@ import * as types from '../mutation-types'
 const state = {
   pageComponents: [
     {
-      name: 'combox'
+      name: 'panel',
+      slots: {
+        'header': [],
+        'body': [],
+        'footer': []
+      }
     }
   ]
 }

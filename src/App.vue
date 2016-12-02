@@ -18,6 +18,7 @@ import { mapGetters } from 'vuex'
 import ComponentList from './components/ComponentList'
 import Simulator from './components/Simulator'
 import PropsEditor from './components/PropsEditor'
+import TreeNode from './components/TreeNode'
 export default {
   name: 'app',
   data: function () {
@@ -27,30 +28,11 @@ export default {
         {id: 2, text: 'value'},
         {id: 3, text: 'age'}
       ]
-      /*,
-      components: [
-        {
-          name: 'textInput'
-        },
-        {
-          name: 'numberInput'
-        },
-        {
-          name: 'date'
-        },
-        {
-          name: 'dateTime'
-        },
-        {
-          name: 'time'
-        }
-      ],
-      selectdItmes: []
-      */
     }
   },
   components: {
    //  Hello,
+    TreeNode,
     ComponentList,
     Simulator,
     PropsEditor
