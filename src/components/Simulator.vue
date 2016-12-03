@@ -1,34 +1,59 @@
 <template>
-<div class="list-group" v-dropzone:x="drop">
-  <!--button class="list-group-item" v-for="item in items">{{item.name}}</button-->
-  <tree-node v-for="item in items" :model="item"></tree-node>
+<div class="simulator" v-dropzone:x="{dropHandler:drop}">
+  <ul>
+    <tree-node v-for="item in items" :model="item"></tree-node>
+  </ul>
 </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+// import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
+import TreeNode from './TreeNode'
 
 export default {
   name: 'simulator',
+  components: {
+    TreeNode
+  },
   props: {
     items: {
       type: Array,
       required: true
     }
   },
+  /*
   computed: mapGetters([
     'pageComponents'
   ]),
+  */
+  created: function () {
+    this.$on('dropzone:x', function (eventObject) {
+      console.log('simulator')
+      this.drop(eventObject.data)
+    })
+  },
   methods: {
     ...mapActions([
       'addComponent'
     ]),
     drop (dropdata) {
-      this.$store.dispatch('addComponent', dropdata.item)
+      if (dropdata) {
+        this.$store.dispatch('addComponent', dropdata.item)
+      }
+      return dropdata
     }
   }
 }
 </script>
 
 <style>
+.simulator ul {
+  list-style-type: none;
+  padding-left: 10px;
+}
+
+.simulator ul li {
+}
+
 </style>

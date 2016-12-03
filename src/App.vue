@@ -18,7 +18,7 @@ import { mapGetters } from 'vuex'
 import ComponentList from './components/ComponentList'
 import Simulator from './components/Simulator'
 import PropsEditor from './components/PropsEditor'
-import TreeNode from './components/TreeNode'
+
 export default {
   name: 'app',
   data: function () {
@@ -32,7 +32,6 @@ export default {
   },
   components: {
    //  Hello,
-    TreeNode,
     ComponentList,
     Simulator,
     PropsEditor
@@ -75,7 +74,6 @@ html, body {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   display: flex;
   height: 100%;
@@ -106,6 +104,14 @@ html, body {
   display:flex;
   flex:2;
   border-top: 1px solid #ccc;
-  padding:10px 5px 10px 5px; 
+  padding:10px 5px 10px 5px;
+}
+
+.dragged {
+    opacity: 0.4;
+    color: black;
+}
+.x {
+    border: 1px dotted #00c;
 }
 </style>

@@ -75,15 +75,24 @@ export default {
           // drop event
           drop (event) {
             const bd = binding
-            const arg = bd.arg
-            let data
+            const value = bd.value
+            const options = value && value.options
+            const arg = event.dataTransfer.getData('tag')
+            const data = JSON.parse(event.dataTransfer.getData('data'))
+            const context = vnode.context
             if (event.preventDefault) {
               event.preventDefault()
             }
+
+            if (value && !value.propagation) {
+              event.stopPropagation()
+            }
+
             if (dropTo === arg) {
-              data = JSON.parse(event.dataTransfer.getData('data'))
-              if (bd.expression && typeof vnode.context[bd.expression] === 'function') {
-                vnode.context[bd.expression](data)
+              if (options) {
+                value.dropHandler.call(context, data, options)
+              } else {
+                value.dropHandler.call(context, data)
               }
               event.target.classList.remove(arg)
             }
@@ -105,7 +114,7 @@ export default {
         el.removeEventListener('drop', handler.drop)
       },
       update (el, binding, vnode, oldVnode) {
-        // abc
+        // console.log(binding.value)
       }
     })
   }

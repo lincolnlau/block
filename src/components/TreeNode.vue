@@ -1,13 +1,13 @@
 <template>
   <li>
     <div>
-      {{model.name}}  
+      {{model.name}}
     </div>
     <ul v-show="open" v-if="hasSlots">
-      <li v-for="(name, children) in model.slots">
-        <div>{{name || 'default'}}</div>
+      <li v-for="(children, name) in model.slots">
+        <div v-dropzone:x="{dropHandler:ondrop, options:{slotName: name}}">{{name || 'default'}}</div>
         <ul>
-          <tree-node v-for="m in children" :model="m"></treenode>  
+          <tree-node v-for="m in children" :model="m"></treenode>
         </ul>
       </li>
     </ul>
@@ -22,13 +22,19 @@ export default {
   },
   data: function () {
     return {
-      open: false
+      open: true
     }
   },
   computed: {
     hasSlots: function () {
-      return this.model.slots && this.slots.length
+      const slots = this.model.slots
+      return slots && Object.keys(slots).length
     }
+  },
+  created: function () {
+    this.$on('dropzone:x', function (objectEvent, slotName) {
+      this.addChildToSlot(slotName, objectEvent.data.item)
+    })
   },
   methods: {
 
@@ -38,12 +44,19 @@ export default {
       }
     },
 
+    ondrop (data, options) {
+      this.addChildToSlot(options.slotName, data)
+    },
+
     addChildToSlot (slotName, obj) {
       if (this.hasSlots) {
         if (arguments.length === 2) {
-          this.model.slots[slotName].push(obj)
+          console.log('in slot ' + slotName)
+          console.log(obj)
+          // this.model.slots[slotName].push(obj)
         } else {
-          this.model.slots[''].push(obj)
+          console.log('in default slot')
+          // this.model.slots[''].push(obj)
         }
       }
     }
