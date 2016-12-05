@@ -27,12 +27,6 @@ export default {
     'pageComponents'
   ]),
   */
-  created: function () {
-    this.$on('dropzone:x', function (eventObject) {
-      console.log('simulator')
-      this.drop(eventObject.data)
-    })
-  },
   methods: {
     ...mapActions([
       'addComponent'

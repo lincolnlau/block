@@ -1,6 +1,7 @@
 export default {
   install: function (Vue, options) {
     let dropTo = ''
+    let dragData = null
     Vue.directive('draggable', {
       // name: 'draggable',
       bind (el, binding, vnode) {
@@ -9,10 +10,12 @@ export default {
           dragstart (event) {
             const bd = binding
             dropTo = bd.arg
-            event.target.classList.add(binding.value.dragged)
+            dragData = bd.value
+            if (dragData.clone) {
+              dragData = JSON.parse(JSON.stringify(dragData))
+            }
+            event.target.classList.add(dragData.dragged)
             event.dataTransfer.effectAllowed = 'all'
-            event.dataTransfer.setData('data', JSON.stringify(bd.value))
-            event.dataTransfer.setData('tag', dropTo)
             return false
           },
           // dragend handler
@@ -37,18 +40,16 @@ export default {
     })
 
     Vue.directive('dropzone', {
-      // name: 'dropzone',
       bind (el, binding, vnode) {
         const handler = {
-          // dragenter handler
           dragenter (event) {
             const arg = binding.arg
-            if (dropTo === arg) {
+            if (dropTo === arg && el === event.target) {
               event.target.classList.add(arg)
             }
             return false
           },
-          // dragover handler
+
           dragover (event) {
             if (event.preventDefault) {
               event.preventDefault()
@@ -60,11 +61,9 @@ export default {
               event.dataTransfer.effectAllowed = 'none'
               event.dataTransfer.dropEffect = 'none'
             }
-
             return false
           },
 
-          // dragleave handler
           dragleave (event) {
             const bd = binding
             if (dropTo === bd.arg) {
@@ -72,13 +71,12 @@ export default {
             }
             return false
           },
-          // drop event
+
           drop (event) {
             const bd = binding
             const value = bd.value
             const options = value && value.options
-            const arg = event.dataTransfer.getData('tag')
-            const data = JSON.parse(event.dataTransfer.getData('data'))
+            const arg = bd.arg
             const context = vnode.context
             if (event.preventDefault) {
               event.preventDefault()
@@ -89,11 +87,8 @@ export default {
             }
 
             if (dropTo === arg) {
-              if (options) {
-                value.dropHandler.call(context, data, options)
-              } else {
-                value.dropHandler.call(context, data)
-              }
+              value.dropHandler.call(context, dragData, options)
+              dragData = null
               event.target.classList.remove(arg)
             }
             return false
@@ -106,6 +101,7 @@ export default {
         el.addEventListener('dragleave', handler.dragleave)
         el.addEventListener('drop', handler.drop)
       },
+
       unbind (el, binding, vnode) {
         const handler = binding.dragDropEventHandler
         el.removeEventListener('dragenter', handler.dragenter)
@@ -113,6 +109,7 @@ export default {
         el.removeEventListener('dragleave', handler.dragleave)
         el.removeEventListener('drop', handler.drop)
       },
+
       update (el, binding, vnode, oldVnode) {
         // console.log(binding.value)
       }

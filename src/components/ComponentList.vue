@@ -20,6 +20,11 @@ export default {
   methods: {
     sort (items, $index, $droptag, $dropdata) {
       console.log('abc')
+    },
+    dragStart ($event, item) {
+      $event.dataTransfer.effectAllowed = 'all'
+      $event.dataTransfer.setData('data', JSON.stringify(item))
+      $event.dataTransfer.setData('tag', 'x')
     }
   }
 }

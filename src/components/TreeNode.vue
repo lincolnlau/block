@@ -5,7 +5,7 @@
     </div>
     <ul v-show="open" v-if="hasSlots">
       <li v-for="(children, name) in model.slots">
-        <div v-dropzone:x="{dropHandler:ondrop, options:{slotName: name}}">{{name || 'default'}}</div>
+        <div v-dropzone:x="{dropHandler:ondrop, options:{slotName: name, node: model}}">{{name || 'default'}}</div>
         <ul>
           <tree-node v-for="m in children" :model="m"></treenode>
         </ul>
@@ -31,11 +31,6 @@ export default {
       return slots && Object.keys(slots).length
     }
   },
-  created: function () {
-    this.$on('dropzone:x', function (objectEvent, slotName) {
-      this.addChildToSlot(slotName, objectEvent.data.item)
-    })
-  },
   methods: {
 
     toggle () {
@@ -45,19 +40,12 @@ export default {
     },
 
     ondrop (data, options) {
-      this.addChildToSlot(options.slotName, data)
+      this.addChildToSlot(options.node, options.slotName, data)
     },
 
-    addChildToSlot (slotName, obj) {
+    addChildToSlot (node, slotName, obj) {
       if (this.hasSlots) {
-        if (arguments.length === 2) {
-          console.log('in slot ' + slotName)
-          console.log(obj)
-          // this.model.slots[slotName].push(obj)
-        } else {
-          console.log('in default slot')
-          // this.model.slots[''].push(obj)
-        }
+        this.$store.dispatch('addToSlot', {parent: node, slotName: slotName, newComponent: obj})
       }
     }
   }

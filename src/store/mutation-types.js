@@ -1,3 +1,4 @@
 export const ADD_TO_COMPONENTLIST = 'ADD_TO_COMPONENTLIST'
 export const ADD_TO_PAGE = 'ADD_TO_PAGE'
+export const ADD_TO_SLOT = 'ADD_TO_SLOT'
 export const REMOVE_FROM_PAGE = 'REMOVE_FROM_PAGE'

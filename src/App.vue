@@ -112,6 +112,6 @@ html, body {
     color: black;
 }
 .x {
-    border: 1px dotted #00c;
+    border: 2px dashed #ddd;
 }
 </style>
