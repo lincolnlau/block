@@ -22,18 +22,21 @@ export default {
       required: true
     }
   },
-  /*
-  computed: mapGetters([
-    'pageComponents'
-  ]),
-  */
   methods: {
     ...mapActions([
       'addComponent'
     ]),
     drop (dropdata) {
       if (dropdata) {
-        this.$store.dispatch('addComponent', dropdata.item)
+        let component = JSON.parse(JSON.stringify(dropdata.item))
+        const slots = component.slots
+        const keys = Object.keys(slots)
+        if (slots) {
+          keys.forEach(function (item) {
+            slots[item] = []
+          })
+        }
+        this.$store.dispatch('addComponent', component)
       }
       return dropdata
     }

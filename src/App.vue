@@ -4,7 +4,8 @@
       <component-list :items="componentModels"></component-list>
     </div>
     <div class="mainpanel">
-      <simulator class="iphone" :items="pageComponents"></simulator>
+      <div class="onecloumn"><simulator class="iphone" :items="pageComponents"></simulator></div>
+      <div class="onecloumn"><preview></preview></div>
     </div>
     <div class="rightpanel">
       <div class="onerow">This is a component's description</div>
@@ -17,6 +18,7 @@
 import { mapGetters } from 'vuex'
 import ComponentList from './components/ComponentList'
 import Simulator from './components/Simulator'
+import Preview from './components/Preview'
 import PropsEditor from './components/PropsEditor'
 
 export default {
@@ -34,7 +36,11 @@ export default {
    //  Hello,
     ComponentList,
     Simulator,
+    Preview,
     PropsEditor
+  },
+  created: function () {
+
   },
   computed: {
     ...mapGetters({
@@ -70,6 +76,10 @@ html, body {
     -webkit-user-drag: element;
 }
 
+.__slot {
+  border: 1px dashed #ccc !important;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -86,11 +96,18 @@ html, body {
   flex:1;
   border: 1px solid #ccc;
   border-width: 0 1px;
+  flex-direction:row;
+  display: flex;
 }
 .rightpanel {
   width:300px;
   flex-direction:column;
   display: flex;
+}
+
+.onecloumn {
+  display: flex;
+  flex: 1;
 }
 
 .onerow {

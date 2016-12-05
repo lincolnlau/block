@@ -1,16 +1,7 @@
 import * as types from '../mutation-types'
 
 const state = {
-  pageComponents: [
-    {
-      name: 'panel',
-      slots: {
-        'header': [],
-        'body': [],
-        'footer': []
-      }
-    }
-  ]
+  pageComponents: []
 }
 
 // getters

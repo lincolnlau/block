@@ -19,6 +19,20 @@ const state = {
     },
     {
       name: 'time'
+    },
+    {
+      name: 'panel',
+      slots: {
+        'heading': {
+          type: '*'
+        },
+        '': {
+          type: '*'
+        },
+        'footer': {
+          type: '*'
+        }
+      }
     }
   ]
 }
