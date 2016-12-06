@@ -82,6 +82,8 @@ export default {
               event.preventDefault()
             }
 
+            console.log(vnode.content.$store.dispatch('addComponent', component, vnode))
+
             if (value && !value.propagation) {
               event.stopPropagation()
             }
