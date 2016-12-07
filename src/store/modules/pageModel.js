@@ -27,52 +27,16 @@ const mutations = {
     state.pageComponents.push(component)
   },
 
-  [types.ADD_TO_SLOT] (state, options) {
-    const parent = options.parent
-    const slotName = options.slotName
-    let componentArray
-    if (!parent) {
-      console.warn('couldn\'t insert component to an null node')
-      return
-    }
-
-    if (!parent.slots) {
-      console.warn('parent node doesn\'t have a slot')
-      return
-    }
-
-    componentArray = parent.slots[slotName]
-    if (!componentArray || !Array.isArray(componentArray)) {
-      console.warn('slot named "' + options.slotName + '" does not exist')
-      return
-    }
-
-    componentArray.push(options.newComponent.item)
-  },
-
   [types.ADD_TO_VNODE] (state, options) {
     const vnode = options.vnode
-    // const slotName = options.slotName
-    // let componentArray
     if (!vnode) {
       console.warn('couldn\'t insert component to an null node')
       return
     }
 
-    /*
-    if (!parent.slots) {
-      console.warn('parent node doesn\'t have a slot')
-      return
-    }
+    const Panel = Vue.component('panel')
+    // console.log(Panel)
 
-    componentArray = parent.slots[slotName]
-    if (!componentArray || !Array.isArray(componentArray)) {
-      console.warn('slot named "' + options.slotName + '" does not exist')
-      return
-    }
-    */
-
-    // componentArray.push(options.component.item)
     const dropdata = options.component
     let component = JSON.parse(JSON.stringify(dropdata.item))
     const slots = component.slots
@@ -81,45 +45,29 @@ const mutations = {
       const keys = Object.keys(slots)
       keys.forEach(function (item) {
         slots[item] = []
-        string += '<div slot="' + item + '" class=" __slot" v-dropzone:x=""></div>'
+        if (item) {
+          string += '<div slot="' + item + '" v-dropzone:x="">' + item + '</div>'
+        } else {
+          string += '<div v-dropzone:x="">hahaha</div>'
+        }
       })
     }
     string += '</' + component.name + '>'
 
-    const nodeComponent = vnode.context
-    const res = Vue.compile(string, {
-      _isComponent: true,
-      directives: {
-        // dropzone: Vue.directive('dropzone')
-      }
-    })
-
+    const res = Vue.compile(string)
+    console.log(res)
     const instance = new Vue({
-      // el: div,
       render: res.render,
       staticRenderFns: res.staticRenderFns
     })
 
     const newComponent = instance.$mount()
-
-    const context = newComponent.$children[0]
-    const childVnodes = context._vnode.children
-
-    if (childVnodes && childVnodes.length > 0) {
-      // console.log(childVnodes)
-      childVnodes.forEach(item => {
-        if (typeof item.data.slot === 'string') {
-          // add slot style
-          item.elm.classList.add('__slot')
-          // item.elm.setAttribute('v-dropzone:x', '{dropHandler:drop}')
-        }
-      })
-    }
-
-    newComponent.$parent = nodeComponent
-    nodeComponent.$children.push(context)
-    nodeComponent.$el.appendChild(newComponent.$el)
-    console.log(newComponent)
+    vnode.elm.appendChild(newComponent.$el)
+    const pnode = new Panel()
+    const panel = pnode.$mount()
+    console.log(pnode)
+    vnode.elm.appendChild(panel.$el)
+    vnode.context.$children.push(newComponent)
   }
 }
 

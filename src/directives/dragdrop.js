@@ -1,3 +1,4 @@
+import Store from '../store/index'
 export default {
   install: function (Vue, options) {
     let dropTo = ''
@@ -88,8 +89,8 @@ export default {
             }
 
             if (dropTo === arg) {
-              vnode.context.$store.dispatch('addToVNode', {component: dragData, vnode: vnode})
-              // value.dropHandler.call(context, dragData, options)
+              // vnode.context.$store.dispatch('addToVNode', {component: dragData, vnode: vnode})
+              Store.dispatch('addToVNode', {component: dragData, vnode: vnode})
               dragData = null
               event.target.classList.remove(arg)
             }

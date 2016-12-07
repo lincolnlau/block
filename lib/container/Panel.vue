@@ -1,7 +1,5 @@
 <template>
-  <div :class="['panel', typeClass]">
-    <div slot="heading" class="panel-heading">Heading</div><div class="panel-body" slot>Panel content</div><div slot="footer" class="panel-footer">Footer</div></div>
-  </div>
+  <div :class="['panel', typeClass]"><div class="panel-heading"><slot name="heading">Heading</slot></div><div class="panel-body"><slot>Panel content</slot></div><div class="panel-footer"><slot name="footer">Footer</slot></div></div>
 </template>
 <style>
 

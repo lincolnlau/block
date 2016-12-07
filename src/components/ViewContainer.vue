@@ -24,11 +24,6 @@ export default {
       type: Object,
       required: true
     }
-  },
-  mounted: function () {
-
-
-
   }
 }
 </script>
