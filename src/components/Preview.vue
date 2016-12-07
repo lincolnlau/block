@@ -1,5 +1,5 @@
 <template>
-<div slot class="preview" v-dropzone:x="{dropHandler:drop}"></div>
+<div slot class="preview" v-dropzone:x></div>
 </template>
 <style>
 .preview {
@@ -28,25 +28,6 @@
             })
           }
           string += '</' + component.name + '>'
-          /*
-          const NewComPonent = Vue.extend({
-            template: string,
-            methods: {
-              $$_dropHandler (dropData) {
-                console.log(dropData)
-              }
-            }
-          })
-
-          const componentInstance = new NewComPonent(Vue.directive('dropzone')).$mount()
-
-          componentInstance.$parent = this
-          this.$children.push(componentInstance)
-          this.$el.appendChild(componentInstance.$el)
-
-          console.log(componentInstance)
-          console.log(this)
-          */
 
           const res = Vue.compile(string, {
             directives: {

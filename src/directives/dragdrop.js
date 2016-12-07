@@ -75,21 +75,21 @@ export default {
           drop (event) {
             const bd = binding
             const value = bd.value
-            const options = value && value.options
+            console.log(value)
+            // const options = value && value.options
             const arg = bd.arg
-            const context = vnode.context
+            // const context = vnode.context
             if (event.preventDefault) {
               event.preventDefault()
             }
 
-            console.log(vnode.content.$store.dispatch('addComponent', component, vnode))
-
-            if (value && !value.propagation) {
+            if (!value || !value.propagation) {
               event.stopPropagation()
             }
 
             if (dropTo === arg) {
-              value.dropHandler.call(context, dragData, options)
+              vnode.context.$store.dispatch('addToVNode', {component: dragData, vnode: vnode})
+              // value.dropHandler.call(context, dragData, options)
               dragData = null
               event.target.classList.remove(arg)
             }
