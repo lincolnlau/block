@@ -17,12 +17,6 @@ export default{
       type: String,
       default: 'default'
     }
-  }/* ,
-  render: function (createElement) {
-    const header = this.$slots.heading
-    const body = this.$slots.default
-    const footer = this.$slots.footer
-    return createElement('div', [header, body, footer])
-  } */
+  }
 }
 </script>

@@ -1,4 +1,5 @@
 import Store from '../store/index'
+import UUID from 'uuid'
 export default {
   install: function (Vue, options) {
     let dropTo = ''
@@ -11,10 +12,11 @@ export default {
           dragstart (event) {
             const bd = binding
             dropTo = bd.arg
-            dragData = bd.value
-            if (dragData.clone) {
-              dragData = JSON.parse(JSON.stringify(dragData))
+            dragData = JSON.parse(JSON.stringify(bd.value))
+            if (dragData.data) {
+              dragData.data._uuid = UUID.v1()
             }
+
             event.target.classList.add(dragData.dragged)
             event.dataTransfer.effectAllowed = 'all'
             return false
@@ -76,10 +78,7 @@ export default {
           drop (event) {
             const bd = binding
             const value = bd.value
-            console.log(value)
-            // const options = value && value.options
             const arg = bd.arg
-            // const context = vnode.context
             if (event.preventDefault) {
               event.preventDefault()
             }
@@ -89,8 +88,7 @@ export default {
             }
 
             if (dropTo === arg) {
-              // vnode.context.$store.dispatch('addToVNode', {component: dragData, vnode: vnode})
-              Store.dispatch('addToVNode', {component: dragData, vnode: vnode})
+              Store.dispatch('addToVNode', {component: dragData, vnode: vnode, parentConfig: value})
               dragData = null
               event.target.classList.remove(arg)
             }

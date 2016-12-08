@@ -1,5 +1,5 @@
 <template>
-<div class="simulator" v-dropzone:x="{dropHandler:drop}">
+<div class="simulator">
   <ul>
     <tree-node v-for="item in items" :model="item"></tree-node>
   </ul>
@@ -7,7 +7,6 @@
 </template>
 
 <script>
-// import { mapGetters, mapActions } from 'vuex'
 import { mapActions } from 'vuex'
 import TreeNode from './TreeNode'
 
@@ -25,21 +24,7 @@ export default {
   methods: {
     ...mapActions([
       'addComponent'
-    ]),
-    drop (dropdata) {
-      if (dropdata) {
-        let component = JSON.parse(JSON.stringify(dropdata.item))
-        const slots = component.slots
-        const keys = Object.keys(slots)
-        if (slots) {
-          keys.forEach(function (item) {
-            slots[item] = []
-          })
-        }
-        this.$store.dispatch('addComponent', component)
-      }
-      return dropdata
-    }
+    ])
   }
 }
 </script>

@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'vue-dragula/styles/dragula.min.css'
 
+import 'expose?_!underscore'
+
 import Vue from 'vue'
 import Dragdrop from './directives/dragdrop'
 import Panel from '../lib/container/Panel'

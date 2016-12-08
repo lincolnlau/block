@@ -1,7 +1,13 @@
 import * as types from '../mutation-types'
 import Vue from 'vue'
+
+import Gen from '../../generator/generator'
+
 const state = {
-  pageComponents: []
+  // 存储component 之间的关系
+  pageComponents: [],
+  // 以_uuid为key来保存每一个对象
+  componentsMap: {}
 }
 
 // getters
@@ -34,11 +40,8 @@ const mutations = {
       return
     }
 
-    const Panel = Vue.component('panel')
-    // console.log(Panel)
-
     const dropdata = options.component
-    let component = JSON.parse(JSON.stringify(dropdata.item))
+    let component = JSON.parse(JSON.stringify(dropdata.data))
     const slots = component.slots
     let string = '<' + component.name + '>'
     if (slots) {
@@ -46,16 +49,14 @@ const mutations = {
       keys.forEach(function (item) {
         slots[item] = []
         if (item) {
-          string += '<div slot="' + item + '" v-dropzone:x="">' + item + '</div>'
+          string += '<div slot="' + item + '" v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}">' + item + '</div>'
         } else {
-          string += '<div v-dropzone:x="">hahaha</div>'
+          string += '<div v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}">hahaha</div>'
         }
       })
     }
     string += '</' + component.name + '>'
-
     const res = Vue.compile(string)
-    console.log(res)
     const instance = new Vue({
       render: res.render,
       staticRenderFns: res.staticRenderFns
@@ -63,11 +64,23 @@ const mutations = {
 
     const newComponent = instance.$mount()
     vnode.elm.appendChild(newComponent.$el)
-    const pnode = new Panel()
-    const panel = pnode.$mount()
-    console.log(pnode)
-    vnode.elm.appendChild(panel.$el)
-    vnode.context.$children.push(newComponent)
+
+    // 挂载数据
+    if (!state.componentsMap[component._uuid]) {
+      state.componentsMap[component._uuid] = component
+    }
+
+    // add component data to component tree
+    const parentConfig = options.parentConfig
+    if (parentConfig) {
+      const parentNode = state.componentsMap[parentConfig._uuid]
+      if (parentNode) {
+        parentNode.slots[parentConfig.slot].push(component)
+      }
+    } else {
+      state.pageComponents.push(component)
+    }
+    console.log(Gen.gen(state.pageComponents))
   }
 }
 

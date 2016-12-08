@@ -1,5 +1,6 @@
 var path = require('path')
 var config = require('../config')
+var webpack = require('webpack')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
 
@@ -12,7 +13,10 @@ var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/main.js',
+    vender: [
+      'underscore'
+    ]
   },
   output: {
     path: config.build.assetsRoot,

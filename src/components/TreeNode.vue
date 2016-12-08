@@ -5,7 +5,7 @@
     </div>
     <ul v-show="open" v-if="hasSlots">
       <li v-for="(children, name) in model.slots">
-        <div v-dropzone:x="{dropHandler:ondrop, options:{slotName: name, node: model}}">{{name || 'default'}}</div>
+        <div>{{name || 'default'}}</div>
         <ul>
           <tree-node v-for="m in children" :model="m"></treenode>
         </ul>
@@ -32,20 +32,9 @@ export default {
     }
   },
   methods: {
-
     toggle () {
       if (this.hasSlots) {
         this.open = !this.open
-      }
-    },
-
-    ondrop (data, options) {
-      this.addChildToSlot(options.node, options.slotName, data)
-    },
-
-    addChildToSlot (node, slotName, obj) {
-      if (this.hasSlots) {
-        this.$store.dispatch('addToSlot', {parent: node, slotName: slotName, newComponent: obj})
       }
     }
   }
