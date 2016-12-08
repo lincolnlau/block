@@ -43,7 +43,7 @@ const mutations = {
     const dropdata = options.component
     let component = JSON.parse(JSON.stringify(dropdata.data))
     const slots = component.slots
-    let string = '<' + component.name + '>'
+    let string = '<' + component.name + ' tabindex="-1">'
     if (slots) {
       const keys = Object.keys(slots)
       keys.forEach(function (item) {
