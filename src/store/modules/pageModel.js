@@ -50,7 +50,6 @@ const mutations = {
       keys.forEach(function (item) {
         slots[item] = []
         if (item) {
-          // string += '<div slot="' + item + '" v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}">' + item + '</div>'
           string += '<div slot="' + item + '" class="__slot" v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}"></div>'
         } else {
           string += '<div v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}" class="__slot"></div>'
@@ -65,10 +64,11 @@ const mutations = {
     })
 
     const newComponent = instance.$mount()
-    vnode.elm.appendChild(newComponent.$el)
     const instanceComponent = newComponent.$children[0]
+    vnode.elm.appendChild(instanceComponent.$el)
     instanceComponent.$parent = null
     vnode.context.$children.push(instanceComponent)
+    instanceComponent.$el.focus()
     // console.log(instanceComponent)
 
     /*
