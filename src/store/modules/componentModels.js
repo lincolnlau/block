@@ -22,10 +22,13 @@ const state = {
     },
     {
       name: 'panel',
+      props: {
+        type: {
+          type: 'String',
+          default: 'Heading Text'
+        }
+      },
       slots: {
-        'heading': {
-          type: '*'
-        },
         '': {
           type: '*'
         },

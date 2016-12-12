@@ -88,7 +88,7 @@ export default {
             }
 
             if (dropTo === arg) {
-              Store.dispatch('addToVNode', {component: dragData, vnode: vnode, parentConfig: value})
+              Store.dispatch('addToVNode', {dragData: dragData, vnode: vnode, parentConfig: value})
               dragData = null
               event.target.classList.remove(arg)
             }

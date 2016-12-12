@@ -40,8 +40,9 @@ const mutations = {
       return
     }
 
-    const dropdata = options.component
-    let component = JSON.parse(JSON.stringify(dropdata.data))
+    const dropdata = options.dragData
+    let component = dropdata.data
+
     const slots = component.slots
     let string = '<' + component.name + ' tabindex="-1">'
     if (slots) {
@@ -49,9 +50,10 @@ const mutations = {
       keys.forEach(function (item) {
         slots[item] = []
         if (item) {
-          string += '<div slot="' + item + '" v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}">' + item + '</div>'
+          // string += '<div slot="' + item + '" v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}">' + item + '</div>'
+          string += '<div slot="' + item + '" class="__slot" v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}"></div>'
         } else {
-          string += '<div v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}">hahaha</div>'
+          string += '<div v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}" class="__slot"></div>'
         }
       })
     }
@@ -64,6 +66,21 @@ const mutations = {
 
     const newComponent = instance.$mount()
     vnode.elm.appendChild(newComponent.$el)
+    const instanceComponent = newComponent.$children[0]
+    instanceComponent.$parent = null
+    vnode.context.$children.push(instanceComponent)
+    // console.log(instanceComponent)
+
+    /*
+    var Component = Vue.component(component.name)
+    var newInstance = new Component()
+    newInstance.$mount()
+    newInstance.type = 'danger'
+    vnode.elm.appendChild(newInstance.$el)
+    // newInstance.$parent = vnode.context
+    vnode.context.$children.push(newInstance)
+    console.log(newInstance.$slots)
+    */
 
     // 挂载数据
     if (!state.componentsMap[component._uuid]) {
@@ -80,7 +97,8 @@ const mutations = {
     } else {
       state.pageComponents.push(component)
     }
-    console.log(Gen.gen(state.pageComponents))
+    // console.log(state.pageComponents)
+    console.log(Gen.genVue(state.pageComponents, state.componentsMap))
   }
 }
 
