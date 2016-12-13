@@ -9,7 +9,7 @@
     </div>
     <div class="rightpanel">
       <div class="onerow">This is a component's description</div>
-      <props-editor :properties="curProps" class="tworow"></props-editor>
+      <props-editor :model="currentComponent" class="tworow"></props-editor>
     </div>
   </div>
 </template>
@@ -23,15 +23,6 @@ import PropsEditor from './components/PropsEditor'
 
 export default {
   name: 'app',
-  data: function () {
-    return {
-      curProps: [
-        {id: 1, text: 'name'},
-        {id: 2, text: 'value'},
-        {id: 3, text: 'age'}
-      ]
-    }
-  },
   components: {
    //  Hello,
     ComponentList,
@@ -45,7 +36,8 @@ export default {
   computed: {
     ...mapGetters({
       componentModels: 'componentModels',
-      pageComponents: 'pageComponents'
+      pageComponents: 'pageComponents',
+      currentComponent: 'currentComponent'
     })
   }
 }

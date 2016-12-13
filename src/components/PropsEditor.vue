@@ -1,9 +1,9 @@
 <template>
 <div>
-  <form class="form-horizontal">
-    <div v-for="item in properties" class="form-group">
-      <label class="col-md-4 control-label">{{item.text}}</label>
-      <div class="col-md-8"><input class="form-control"/></div>
+  <form class="form-horizontal" v-if="component && component.props" >
+    <div v-for="(v, k) in component.props" class="form-group">
+      <label class="col-md-4 control-label">{{v.label}}</label>
+      <div class="col-md-8"><input class="form-control" v-model="v._value"/></div>
     </div>
   </from>
 </div>
@@ -11,11 +11,24 @@
 <script>
 export default {
   name: 'propsEditor',
-  props: {
-    properties: {
-      type: Array,
-      required: true
+  data: function () {
+    return {
+      component: null
     }
+  },
+  props: {
+    model: {
+      type: Object,
+      default: {}
+    }
+  },
+  created: function () {
+    this.$watch('component', function (newVal, oldVal) {
+      console.log('props changed')
+    }, {deep: true})
+    this.$watch('model', function (newVal, oldVal) {
+      this.component = JSON.parse(JSON.stringify(this.model))
+    })
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['panel', typeClass]"><div class="panel-heading"><slot name="heading">Heading</slot></div><div class="panel-body"><slot>Panel content</slot></div><div class="panel-footer"><slot name="footer">Footer</slot></div></div>
+  <div :class="['panel', typeClass]"><div class="panel-heading">{{heading}}</slot></div><div class="panel-body"><slot>Panel content</slot></div><div class="panel-footer"><slot name="footer">Footer</slot></div></div>
 </template>
 <style>
 
@@ -16,6 +16,10 @@ export default{
     type: {
       type: String,
       default: 'default'
+    },
+    heading: {
+      type: String,
+      default: 'Heading Text'
     }
   }
 }

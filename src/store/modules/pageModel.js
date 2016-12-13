@@ -3,16 +3,57 @@ import Vue from 'vue'
 
 import Gen from '../../generator/generator'
 
+function genComponentSource (componentConfig) {
+  const slots = componentConfig.slots
+  const props = componentConfig.props
+
+  let string = '<' + componentConfig.name
+
+  if (props) {
+    const keys = Object.keys(props)
+    keys.forEach(function (key) {
+      const prop = props[key]
+      prop._value = prop.default
+      string += ' ' + key + '="' + prop._value + '"'
+    })
+  }
+
+  string += ' tabindex="-1">'
+  if (slots) {
+    const keys = Object.keys(slots)
+    keys.forEach(function (item) {
+      slots[item] = []
+      if (item) {
+        string += '<div slot="' + item + '" class="__slot" v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + componentConfig._uuid + '\'}"></div>'
+      } else {
+        string += '<div v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + componentConfig._uuid + '\'}" class="__slot"></div>'
+      }
+    })
+  }
+
+  string += '</' + componentConfig.name + '>'
+  const res = Vue.compile(string)
+  const instance = new Vue({
+    render: res.render,
+    staticRenderFns: res.staticRenderFns
+  })
+
+  return instance
+}
+
 const state = {
   // 存储component 之间的关系
   pageComponents: [],
   // 以_uuid为key来保存每一个对象
-  componentsMap: {}
+  componentsMap: {},
+  // 当前待编辑元素
+  currentComponent: null
 }
 
 // getters
 const getters = {
-  pageComponents: state => state.pageComponents
+  pageComponents: state => state.pageComponents,
+  currentComponent: state => state.currentComponent
 }
 
 // actions
@@ -42,34 +83,14 @@ const mutations = {
 
     const dropdata = options.dragData
     let component = dropdata.data
-
-    const slots = component.slots
-    let string = '<' + component.name + ' tabindex="-1">'
-    if (slots) {
-      const keys = Object.keys(slots)
-      keys.forEach(function (item) {
-        slots[item] = []
-        if (item) {
-          string += '<div slot="' + item + '" class="__slot" v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}"></div>'
-        } else {
-          string += '<div v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + component._uuid + '\'}" class="__slot"></div>'
-        }
-      })
-    }
-    string += '</' + component.name + '>'
-    const res = Vue.compile(string)
-    const instance = new Vue({
-      render: res.render,
-      staticRenderFns: res.staticRenderFns
-    })
-
+    const instance = genComponentSource(component)
     const newComponent = instance.$mount()
     const instanceComponent = newComponent.$children[0]
+    // Vue.set(instanceComponent, ':type', '\'danger\'')
     vnode.elm.appendChild(instanceComponent.$el)
     instanceComponent.$parent = null
     vnode.context.$children.push(instanceComponent)
     instanceComponent.$el.focus()
-    // console.log(instanceComponent)
 
     /*
     var Component = Vue.component(component.name)
@@ -97,6 +118,8 @@ const mutations = {
     } else {
       state.pageComponents.push(component)
     }
+
+    state.currentComponent = component
     // console.log(state.pageComponents)
     console.log(Gen.genVue(state.pageComponents, state.componentsMap))
   }

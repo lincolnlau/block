@@ -25,6 +25,12 @@ const state = {
       props: {
         type: {
           type: 'String',
+          label: '类型',
+          default: 'default'
+        },
+        heading: {
+          type: 'String',
+          label: '头部文字',
           default: 'Heading Text'
         }
       },
