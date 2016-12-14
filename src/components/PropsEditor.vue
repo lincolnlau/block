@@ -26,8 +26,16 @@ export default {
   },
   created: function () {
     this.$watch('component', function (newVal, oldVal) {
-      console.log('props changed')
+      const el = document.querySelector('[_uuid="' + newVal._uuid + '"]')
+      const compoent = el && el.__vue__
+      Object.keys(newVal.props).forEach(function (key) {
+        const prop = newVal.props[key]
+        if (compoent) {
+          compoent.$set(compoent, key, prop._value)
+        }
+      })
     }, {deep: true})
+
     this.$watch('model', function (newVal, oldVal) {
       this.component = JSON.parse(JSON.stringify(this.model))
     })
