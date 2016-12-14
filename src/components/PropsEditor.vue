@@ -9,6 +9,8 @@
 </div>
 </template>
 <script>
+import Store from '../store/index'
+
 export default {
   name: 'propsEditor',
   data: function () {

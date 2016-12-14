@@ -66,12 +66,40 @@ const actions = {
   },
   addToVNode ({commit}, obj) {
     commit(types.ADD_TO_VNODE, obj)
+  },
+  /**
+   *
+   * @param commit
+   * @param options
+   * {
+   *    _uuid: ''  // component uuid
+   *    component: vueComponent,
+   *    props: {  // props value
+   *      'key1': value1
+   *      'key2': value2
+   *    }
+   * }
+     */
+  setCurrentComponentProps ({commit}, options) {
+
   }
 }
 
 const mutations = {
   [types.ADD_TO_PAGE] (state, component) {
     state.pageComponents.push(component)
+  },
+
+  [types.SET_CURRENT_COMPONENT_PROPS] (state, options) {
+    const vueComponent = options.component
+    const props = options.props
+    const nodeProps = state.componentsMap[options._uuid].props
+
+    Object.keys(props).forEach(function (key) {
+      const vlaue = props[key]
+      nodeProps[key]._value = value
+      vueComponent.$set(vueComponent, key, value)
+    })
   },
 
   [types.ADD_TO_VNODE] (state, options) {
