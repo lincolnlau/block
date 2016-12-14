@@ -7,7 +7,7 @@ function genComponentSource (componentConfig) {
   const slots = componentConfig.slots
   const props = componentConfig.props
 
-  let string = '<' + componentConfig.name
+  let string = '<' + componentConfig.name + ' _uuid="' + componentConfig._uuid + '"'
 
   if (props) {
     const keys = Object.keys(props)
@@ -86,10 +86,13 @@ const mutations = {
     const instance = genComponentSource(component)
     const newComponent = instance.$mount()
     const instanceComponent = newComponent.$children[0]
+    newComponent.$children = []
     // Vue.set(instanceComponent, ':type', '\'danger\'')
     vnode.elm.appendChild(instanceComponent.$el)
-    instanceComponent.$parent = null
+    newComponent.$el.__vue__ = instanceComponent
+    instanceComponent.$parent = vnode.context
     vnode.context.$children.push(instanceComponent)
+
     instanceComponent.$el.focus()
 
     /*
@@ -120,7 +123,7 @@ const mutations = {
     }
 
     state.currentComponent = component
-    // console.log(state.pageComponents)
+    console.log(JSON.stringify(state.pageComponents))
     console.log(Gen.genVue(state.pageComponents, state.componentsMap))
   }
 }
