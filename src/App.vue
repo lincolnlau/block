@@ -30,9 +30,6 @@ export default {
     Preview,
     PropsEditor
   },
-  created: function () {
-
-  },
   computed: {
     ...mapGetters({
       componentModels: 'componentModels',

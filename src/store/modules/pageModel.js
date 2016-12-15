@@ -73,7 +73,6 @@ const actions = {
    * @param options
    * {
    *    _uuid: ''  // component uuid
-   *    component: vueComponent,
    *    props: {  // props value
    *      'key1': value1
    *      'key2': value2
@@ -81,7 +80,7 @@ const actions = {
    * }
      */
   setCurrentComponentProps ({commit}, options) {
-
+    commit(types.SET_CURRENT_COMPONENT_PROPS, options)
   }
 }
 
@@ -91,14 +90,13 @@ const mutations = {
   },
 
   [types.SET_CURRENT_COMPONENT_PROPS] (state, options) {
-    const vueComponent = options.component
     const props = options.props
     const nodeProps = state.componentsMap[options._uuid].props
 
     Object.keys(props).forEach(function (key) {
-      const vlaue = props[key]
-      nodeProps[key]._value = value
-      vueComponent.$set(vueComponent, key, value)
+      const valueObj = props[key]
+      nodeProps[key]._value = valueObj.value
+      // vueComponent.$set(vueComponent, key, valueObj.value)
     })
   },
 
@@ -151,7 +149,7 @@ const mutations = {
     }
 
     state.currentComponent = component
-    console.log(JSON.stringify(state.pageComponents))
+    // console.log(JSON.stringify(state.pageComponents))
     console.log(Gen.genVue(state.pageComponents, state.componentsMap))
   }
 }
