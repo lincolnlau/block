@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <form class="form-horizontal" v-if="component && component.props" >
-      <div v-for="(v, k) in component.props" class="form-group">
+  <div class="tworow">
+    <form class="form-horizontal" v-if="currentComponent && currentComponent.props" >
+      <div v-for="(v, k) in currentComponent.props" class="form-group">
         <label class="col-md-4 control-label">{{v.label}}</label>
         <div class="col-md-8"><input class="form-control" v-model="v._value"/></div>
       </div>
@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-// import Store from '../store/index'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'propsEditor',
@@ -18,11 +18,13 @@ export default {
       component: null
     }
   },
-  props: {
-    model: {
-      type: Object,
-      default: {}
-    }
+  computed: {
+    ...mapGetters({
+      componentModels: 'componentModels',
+      pageComponents: 'pageComponents',
+      currentComponent: 'currentComponent',
+      componentsMap: 'componentsMap'
+    })
   },
   created: function () {
     this.$watch('component', function (newVal, oldVal) {

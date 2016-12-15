@@ -2,7 +2,8 @@ import * as types from '../mutation-types'
 import Vue from 'vue'
 
 import Gen from '../../generator/generator'
-
+import store from '../index'
+/*
 function genComponentSource (componentConfig) {
   const slots = componentConfig.slots
   const props = componentConfig.props
@@ -41,6 +42,7 @@ function genComponentSource (componentConfig) {
   return instance
 }
 
+*/
 const state = {
   // 存储component 之间的关系
   pageComponents: [],
@@ -53,7 +55,8 @@ const state = {
 // getters
 const getters = {
   pageComponents: state => state.pageComponents,
-  currentComponent: state => state.currentComponent
+  currentComponent: state => state.currentComponent,
+  componentsMap: state => state.componentsMap
 }
 
 // actions
@@ -109,6 +112,7 @@ const mutations = {
 
     const dropdata = options.dragData
     let component = dropdata.data
+    /*
     const instance = genComponentSource(component)
     const newComponent = instance.$mount()
     const instanceComponent = newComponent.$children[0]
@@ -120,6 +124,7 @@ const mutations = {
     vnode.context.$children.push(instanceComponent)
 
     instanceComponent.$el.focus()
+    */
 
     /*
     var Component = Vue.component(component.name)
@@ -150,7 +155,16 @@ const mutations = {
 
     state.currentComponent = component
     // console.log(JSON.stringify(state.pageComponents))
-    console.log(Gen.genVue(state.pageComponents, state.componentsMap))
+    // console.log(Gen.genVue(state.pageComponents, state.componentsMap))
+    console.log(Gen.genTpl(state.pageComponents))
+
+    /* eslint-disable no-new */
+    new Vue({
+      // el: '#preview',
+      el: document.getElementById('previewContainer').firstChild,
+      store,
+      template: '<preview>' + Gen.genTpl(state.pageComponents) + '</preview>'
+    })
   }
 }
 

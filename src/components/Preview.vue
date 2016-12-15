@@ -11,7 +11,16 @@
 }
 </style>
 <script>
+  import { mapGetters } from 'vuex'
   export default{
-    name: 'preview'
+    name: 'preview',
+    computed: {
+      ...mapGetters({
+        componentModels: 'componentModels',
+        pageComponents: 'pageComponents',
+        currentComponent: 'currentComponent',
+        componentsMap: 'componentsMap'
+      })
+    }
   }
 </script>

@@ -34,7 +34,8 @@ export default {
     ...mapGetters({
       componentModels: 'componentModels',
       pageComponents: 'pageComponents',
-      currentComponent: 'currentComponent'
+      currentComponent: 'currentComponent',
+      componentsMap: 'componentsMap'
     })
   }
 }

@@ -1,13 +1,13 @@
 <template>
-<div class="simulator">
+<div class="simulator iphone">
   <ul>
-    <tree-node v-for="item in items" :model="item"></tree-node>
+    <tree-node v-for="item in items"></tree-node>
   </ul>
 </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import TreeNode from './TreeNode'
 
 export default {
@@ -15,11 +15,13 @@ export default {
   components: {
     TreeNode
   },
-  props: {
-    items: {
-      type: Array,
-      required: true
-    }
+  computed: {
+    ...mapGetters({
+      componentModels: 'componentModels',
+      pageComponents: 'pageComponents',
+      currentComponent: 'currentComponent',
+      componentsMap: 'componentsMap'
+    })
   },
   methods: {
     ...mapActions([

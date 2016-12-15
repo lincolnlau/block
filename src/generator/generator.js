@@ -24,6 +24,49 @@ function generateEventsHandler (events) {
 }
 */
 
+function genProps (node) {
+  let str = ''
+  const props = node.props
+  if (props) {
+    Object.keys(props).forEach(function (key) {
+      const prop = props[key]
+      prop._value = prop._value || prop.default
+      str += ' :' + key + '="componentsMap[\'' + node._uuid + '\'].props[\'' + key + '\']._value"'
+    })
+  }
+
+  return str
+}
+
+function genTemplate (nodes) {
+  let str = ''
+  nodes.forEach(function (item) {
+    const slots = item.slots
+    const propsStr = genProps(item)
+    str += '<' + item.name
+    if (propsStr) {
+      str += ' ' + propsStr
+    }
+    str += '>'
+
+    if (slots) {
+      Object.keys(slots).forEach(function (key) {
+        const children = slots[key]
+
+        if (children && children.length) {
+          if (key) {
+            str += '<div slot="' + key + '">' + genTemplate(children) + '</div>'
+          } else {
+            str += genTemplate(children)
+          }
+        }
+      })
+    }
+    str += '</' + item.name + '>'
+  })
+  return str
+}
+
 function generateTemplate (nodes) {
   let str = ''
   nodes.forEach(function (item) {
@@ -31,7 +74,7 @@ function generateTemplate (nodes) {
     const propsStr = generateProps(item.props)
     str += '<' + item.name
     if (propsStr) {
-      str += ' ' + propsStr
+      str += propsStr
     }
     str += '>'
 
@@ -102,5 +145,10 @@ export default {
     const templateSource = generateTemplate(nodes)
     const codeSource = generateData(map)
     return vueTemplate({template: templateSource, code: codeSource})
+  },
+
+  genTpl (data) {
+    return genTemplate(data)
   }
+
 }
