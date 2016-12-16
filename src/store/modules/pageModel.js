@@ -5,8 +5,8 @@ import Store from '../index'
 function genComponentSource (componentConfig) {
   const slots = componentConfig.slots
   const props = componentConfig.props
-
-  let string = '<' + componentConfig.name + ' _uuid="' + componentConfig._uuid + '"'
+  const uuid = componentConfig._uuid
+  let string = '<' + componentConfig.name + ' _uuid="' + uuid + '" v-focus="{ _uuid:\'' + uuid + '\'}"'
 
   if (props) {
     const keys = Object.keys(props)
@@ -14,11 +14,11 @@ function genComponentSource (componentConfig) {
       const prop = props[key]
       prop._value = prop.default
       // string += ' ' + key + '="' + prop._value + '"'
-      string += ' :' + key + '="componentsMap[\'' + componentConfig._uuid + '\'].props[\'' + key + '\'].default"'
+      string += ' :' + key + '="componentsMap[\'' + uuid + '\'].props[\'' + key + '\'].default"'
     })
   }
 
-  string += ' tabindex="-1">'
+  string += ' tabindex="0">'
   if (slots) {
     const keys = Object.keys(slots)
     keys.forEach(function (item) {
@@ -75,14 +75,22 @@ const actions = {
    *    }
    * }
      */
-  setCurrentComponentProps ({commit}, options) {
-    commit(types.SET_CURRENT_COMPONENT_PROPS, options)
+  // setCurrentComponentProps ({commit}, options) {
+  //   commit(types.SET_CURRENT_COMPONENT_PROPS, options)
+  // },
+
+  setCurrentNode ({commit}, options) {
+    commit(types.SET_CURRENT_NODE, options._uuid)
   }
 }
 
 const mutations = {
   [types.ADD_TO_PAGE] (state, component) {
     state.pageComponents.push(component)
+  },
+
+  [types.SET_CURRENT_NODE] (state, uuid) {
+    state.currentComponent = state.componentsMap[uuid]
   },
 
   [types.SET_CURRENT_COMPONENT_PROPS] (state, options) {
@@ -111,7 +119,6 @@ const mutations = {
       state.componentsMap[component._uuid] = component
     }
 
-    // state.currentComponent = JSON.parse(JSON.stringify(component))
     state.currentComponent = component
 
     // add component data to component tree
@@ -127,7 +134,7 @@ const mutations = {
 
     const res = Vue.compile(genComponentSource(component))
     const instance = new Vue({
-      name: component.name,
+      name: component.name + '_Container',
       render: res.render,
       staticRenderFns: res.staticRenderFns,
       parent: vnode.context,
@@ -140,11 +147,10 @@ const mutations = {
       }
     })
     const newComponent = instance.$mount()
-    const instanceComponent = newComponent.$children[0]
-    newComponent.$children = []
-    // Vue.set(instanceComponent, 'type', 'danger')
-    vnode.elm.appendChild(instanceComponent.$el)
-    instanceComponent.$el.focus()
+    // const instanceComponent = newComponent.$children[0]
+    // newComponent.$children = []
+    vnode.elm.appendChild(newComponent.$el)
+    newComponent.$el.focus()
   }
 }
 

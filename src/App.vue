@@ -24,7 +24,6 @@ import PropsEditor from './components/PropsEditor'
 export default {
   name: 'app',
   components: {
-   //  Hello,
     ComponentList,
     Simulator,
     Preview,
