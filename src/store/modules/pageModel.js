@@ -1,9 +1,7 @@
 import * as types from '../mutation-types'
 import Vue from 'vue'
+import Store from '../index'
 
-import Gen from '../../generator/generator'
-import store from '../index'
-/*
 function genComponentSource (componentConfig) {
   const slots = componentConfig.slots
   const props = componentConfig.props
@@ -15,7 +13,8 @@ function genComponentSource (componentConfig) {
     keys.forEach(function (key) {
       const prop = props[key]
       prop._value = prop.default
-      string += ' ' + key + '="' + prop._value + '"'
+      // string += ' ' + key + '="' + prop._value + '"'
+      string += ' :' + key + '="componentsMap[\'' + componentConfig._uuid + '\'].props[\'' + key + '\'].default"'
     })
   }
 
@@ -33,16 +32,10 @@ function genComponentSource (componentConfig) {
   }
 
   string += '</' + componentConfig.name + '>'
-  const res = Vue.compile(string)
-  const instance = new Vue({
-    render: res.render,
-    staticRenderFns: res.staticRenderFns
-  })
 
-  return instance
+  return string
 }
 
-*/
 const state = {
   // 存储component 之间的关系
   pageComponents: [],
@@ -112,35 +105,14 @@ const mutations = {
 
     const dropdata = options.dragData
     let component = dropdata.data
-    /*
-    const instance = genComponentSource(component)
-    const newComponent = instance.$mount()
-    const instanceComponent = newComponent.$children[0]
-    newComponent.$children = []
-    // Vue.set(instanceComponent, ':type', '\'danger\'')
-    vnode.elm.appendChild(instanceComponent.$el)
-    newComponent.$el.__vue__ = instanceComponent
-    instanceComponent.$parent = vnode.context
-    vnode.context.$children.push(instanceComponent)
-
-    instanceComponent.$el.focus()
-    */
-
-    /*
-    var Component = Vue.component(component.name)
-    var newInstance = new Component()
-    newInstance.$mount()
-    newInstance.type = 'danger'
-    vnode.elm.appendChild(newInstance.$el)
-    // newInstance.$parent = vnode.context
-    vnode.context.$children.push(newInstance)
-    console.log(newInstance.$slots)
-    */
 
     // 挂载数据
     if (!state.componentsMap[component._uuid]) {
       state.componentsMap[component._uuid] = component
     }
+
+    // state.currentComponent = JSON.parse(JSON.stringify(component))
+    state.currentComponent = component
 
     // add component data to component tree
     const parentConfig = options.parentConfig
@@ -153,18 +125,26 @@ const mutations = {
       state.pageComponents.push(component)
     }
 
-    state.currentComponent = component
-    // console.log(JSON.stringify(state.pageComponents))
-    // console.log(Gen.genVue(state.pageComponents, state.componentsMap))
-    console.log(Gen.genTpl(state.pageComponents))
-
-    /* eslint-disable no-new */
-    new Vue({
-      // el: '#preview',
-      el: document.getElementById('previewContainer').firstChild,
-      store,
-      template: '<preview>' + Gen.genTpl(state.pageComponents) + '</preview>'
+    const res = Vue.compile(genComponentSource(component))
+    const instance = new Vue({
+      name: component.name,
+      render: res.render,
+      staticRenderFns: res.staticRenderFns,
+      parent: vnode.context,
+      store: Store,
+      data: function () {
+        return {
+          pageComponents: state.pageComponents,
+          componentsMap: state.componentsMap
+        }
+      }
     })
+    const newComponent = instance.$mount()
+    const instanceComponent = newComponent.$children[0]
+    newComponent.$children = []
+    // Vue.set(instanceComponent, 'type', 'danger')
+    vnode.elm.appendChild(instanceComponent.$el)
+    instanceComponent.$el.focus()
   }
 }
 

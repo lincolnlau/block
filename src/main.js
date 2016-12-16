@@ -45,7 +45,10 @@ new Vue({
 new Vue({
   el: '#preview',
   store,
-  template: '<preview/>'
+  template: '<preview></preview>',
+  computed: {
+    pageComponents: store.getters.pageComponents
+  }
 })
 
 /* eslint-disable no-new */
