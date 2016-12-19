@@ -1,12 +1,12 @@
 <template>
-<div>
-  <form class="form-horizontal" v-if="component && component.props" >
-    <div v-for="(v, k) in component.props" class="form-group">
-      <label class="col-md-4 control-label">{{v.label}}</label>
-      <div class="col-md-8"><input class="form-control" v-model="v._value"/></div>
-    </div>
-  </from>
-</div>
+  <div>
+      <form class="form-horizontal" v-if="component && component.props" >
+          <div v-for="(v, k) in component.props" class="form-group">
+              <label class="col-md-4 control-label">{{v.label}}</label>
+              <div class="col-md-8"><input class="form-control" v-model="v._value"/></div>
+          </div>
+      </form>
+  </div>
 </template>
 <script>
 export default {

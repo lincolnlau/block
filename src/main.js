@@ -1,5 +1,4 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'vue-dragula/styles/dragula.min.css'
 
 import 'expose?_!underscore'
 
