@@ -1,4 +1,6 @@
 import * as types from '../mutation-types'
+import ComponentText from '@hfe/block-component-text/description.json'
+// var json = require('json!@hfe.block-component-text/description.json')
 
 // init state
 // model componentModel {}
@@ -42,7 +44,8 @@ const state = {
           type: '*'
         }
       }
-    }
+    },
+    ComponentText
   ]
 }
 

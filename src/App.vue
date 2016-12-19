@@ -67,7 +67,8 @@ html, body {
 
 .__slot {
   border: 1px dashed #ccc !important;
-  min-height:10px;
+  min-height:20px;
+  height: 100%;
 }
 
 #app {
