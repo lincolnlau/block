@@ -24,20 +24,17 @@ import PropsEditor from './components/PropsEditor'
 export default {
   name: 'app',
   components: {
-   //  Hello,
     ComponentList,
     Simulator,
     Preview,
     PropsEditor
   },
-  created: function () {
-
-  },
   computed: {
     ...mapGetters({
       componentModels: 'componentModels',
       pageComponents: 'pageComponents',
-      currentComponent: 'currentComponent'
+      currentComponent: 'currentComponent',
+      componentsMap: 'componentsMap'
     })
   }
 }

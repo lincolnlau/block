@@ -1,24 +1,24 @@
 import * as types from '../mutation-types'
 import Vue from 'vue'
-
-import Gen from '../../generator/generator'
+import Store from '../index'
 
 function genComponentSource (componentConfig) {
   const slots = componentConfig.slots
   const props = componentConfig.props
-
-  let string = '<' + componentConfig.name
+  const uuid = componentConfig._uuid
+  let string = '<' + componentConfig.name + ' _uuid="' + uuid + '" v-focus="{ _uuid:\'' + uuid + '\'}"'
 
   if (props) {
     const keys = Object.keys(props)
     keys.forEach(function (key) {
       const prop = props[key]
       prop._value = prop.default
-      string += ' ' + key + '="' + prop._value + '"'
+      // string += ' ' + key + '="' + prop._value + '"'
+      string += ' :' + key + '="componentsMap[\'' + uuid + '\'].props[\'' + key + '\'].default"'
     })
   }
 
-  string += ' tabindex="-1">'
+  string += ' tabindex="0">'
   if (slots) {
     const keys = Object.keys(slots)
     keys.forEach(function (item) {
@@ -32,13 +32,8 @@ function genComponentSource (componentConfig) {
   }
 
   string += '</' + componentConfig.name + '>'
-  const res = Vue.compile(string)
-  const instance = new Vue({
-    render: res.render,
-    staticRenderFns: res.staticRenderFns
-  })
 
-  return instance
+  return string
 }
 
 const state = {
@@ -53,7 +48,8 @@ const state = {
 // getters
 const getters = {
   pageComponents: state => state.pageComponents,
-  currentComponent: state => state.currentComponent
+  currentComponent: state => state.currentComponent,
+  componentsMap: state => state.componentsMap
 }
 
 // actions
@@ -66,12 +62,46 @@ const actions = {
   },
   addToVNode ({commit}, obj) {
     commit(types.ADD_TO_VNODE, obj)
+  },
+  /**
+   *
+   * @param commit
+   * @param options
+   * {
+   *    _uuid: ''  // component uuid
+   *    props: {  // props value
+   *      'key1': value1
+   *      'key2': value2
+   *    }
+   * }
+     */
+  // setCurrentComponentProps ({commit}, options) {
+  //   commit(types.SET_CURRENT_COMPONENT_PROPS, options)
+  // },
+
+  setCurrentNode ({commit}, options) {
+    commit(types.SET_CURRENT_NODE, options._uuid)
   }
 }
 
 const mutations = {
   [types.ADD_TO_PAGE] (state, component) {
     state.pageComponents.push(component)
+  },
+
+  [types.SET_CURRENT_NODE] (state, uuid) {
+    state.currentComponent = state.componentsMap[uuid]
+  },
+
+  [types.SET_CURRENT_COMPONENT_PROPS] (state, options) {
+    const props = options.props
+    const nodeProps = state.componentsMap[options._uuid].props
+
+    Object.keys(props).forEach(function (key) {
+      const valueObj = props[key]
+      nodeProps[key]._value = valueObj.value
+      // vueComponent.$set(vueComponent, key, valueObj.value)
+    })
   },
 
   [types.ADD_TO_VNODE] (state, options) {
@@ -83,30 +113,13 @@ const mutations = {
 
     const dropdata = options.dragData
     let component = dropdata.data
-    const instance = genComponentSource(component)
-    const newComponent = instance.$mount()
-    const instanceComponent = newComponent.$children[0]
-    // Vue.set(instanceComponent, ':type', '\'danger\'')
-    vnode.elm.appendChild(instanceComponent.$el)
-    instanceComponent.$parent = null
-    vnode.context.$children.push(instanceComponent)
-    instanceComponent.$el.focus()
-
-    /*
-    var Component = Vue.component(component.name)
-    var newInstance = new Component()
-    newInstance.$mount()
-    newInstance.type = 'danger'
-    vnode.elm.appendChild(newInstance.$el)
-    // newInstance.$parent = vnode.context
-    vnode.context.$children.push(newInstance)
-    console.log(newInstance.$slots)
-    */
 
     // 挂载数据
     if (!state.componentsMap[component._uuid]) {
       state.componentsMap[component._uuid] = component
     }
+
+    state.currentComponent = component
 
     // add component data to component tree
     const parentConfig = options.parentConfig
@@ -119,9 +132,25 @@ const mutations = {
       state.pageComponents.push(component)
     }
 
-    state.currentComponent = component
-    // console.log(state.pageComponents)
-    console.log(Gen.genVue(state.pageComponents, state.componentsMap))
+    const res = Vue.compile(genComponentSource(component))
+    const instance = new Vue({
+      name: component.name + '_Container',
+      render: res.render,
+      staticRenderFns: res.staticRenderFns,
+      parent: vnode.context,
+      store: Store,
+      data: function () {
+        return {
+          pageComponents: state.pageComponents,
+          componentsMap: state.componentsMap
+        }
+      }
+    })
+    const newComponent = instance.$mount()
+    // const instanceComponent = newComponent.$children[0]
+    // newComponent.$children = []
+    vnode.elm.appendChild(newComponent.$el)
+    newComponent.$el.focus()
   }
 }
 

@@ -5,29 +5,32 @@
               <label class="col-md-4 control-label">{{v.label}}</label>
               <div class="col-md-8"><input class="form-control" v-model="v._value"/></div>
           </div>
+          <div class="form-group">
+              <datepicker v-model="date"></datepicker>
+          </div>
       </form>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+import datepicker from 'vue-date'
 export default {
   name: 'propsEditor',
   data: function () {
     return {
-      component: null
+      component: null,
+      date: '2016-12-19'
     }
   },
-  props: {
-    model: {
-      type: Object,
-      default: {}
-    }
+  components: {
+    datepicker
   },
-  created: function () {
-    this.$watch('component', function (newVal, oldVal) {
-      console.log('props changed')
-    }, {deep: true})
-    this.$watch('model', function (newVal, oldVal) {
-      this.component = JSON.parse(JSON.stringify(this.model))
+  computed: {
+    ...mapGetters({
+        componentModels: 'componentModels',
+        pageComponents: 'pageComponents',
+        currentComponent: 'currentComponent',
+        componentsMap: 'componentsMap'
     })
   }
 }

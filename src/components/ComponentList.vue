@@ -3,19 +3,22 @@
   <div class="heading">组件库</div>
   <div class="componentlist-body">
     <div class="list-group componentList" >
-      <button class="list-group-item" v-for="item in items" v-draggable:x="{dragged: 'dragged', data: item}">{{item.name}}</button>
+      <button class="list-group-item" v-for="item in componentModels" v-draggable:x="{dragged: 'dragged', data: item}">{{item.name}}</button>
     </div>
   </div>
 </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'componentList',
-  props: {
-    items: {
-      type: Array,
-      required: true
-    }
+  computed: {
+    ...mapGetters({
+      componentModels: 'componentModels',
+      pageComponents: 'pageComponents',
+      currentComponent: 'currentComponent',
+      componentsMap: 'componentsMap'
+    })
   }
 }
 </script>
@@ -36,5 +39,18 @@ export default {
 .componentlist-body  .list-group-item{
   border-radius: 0;
   border-right: 0px none transparent;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.iphone {
+  width: 320px;
+  height: 568px;
+  border: 1px solid #ccc;
+  margin:40px auto;
+  overflow: auto;
 }
 </style>
