@@ -7,6 +7,7 @@ import Focus from './directives/focus'
 
 import Panel from '../lib/container/Panel'
 import BlockText from '@hfe/block-component-text'
+import BlockScrollingText from '@hfe/block-component-scrolling-text-single'
 
 import store from './store'
 import App from './App'
@@ -14,7 +15,9 @@ import App from './App'
 Vue.use(Dragdrop)
 Vue.use(Focus)
 Vue.component('panel', Panel)
-Vue.component('Block', BlockText)
+console.log(BlockText)
+Vue.component('block-text', BlockText)
+Vue.component('block-scrolling-text-single', BlockScrollingText)
 
 /* eslint-disable no-new */
 new Vue({

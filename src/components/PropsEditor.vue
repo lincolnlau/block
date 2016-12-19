@@ -13,11 +13,11 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'propsEditor',
-  data: function () {
-    return {
-      component: null
-    }
-  },
+//  data: function () {
+//    return {
+//      component: null
+//    }
+//  },
   computed: {
     ...mapGetters({
       componentModels: 'componentModels',
