@@ -1,17 +1,20 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-
 import 'expose?_!underscore'
 
 import Vue from 'vue'
 import Dragdrop from './directives/dragdrop'
 import Focus from './directives/focus'
+
 import Panel from '../lib/container/Panel'
+import BlockText from '@hfe/block-component-text'
+
 import store from './store'
 import App from './App'
 
 Vue.use(Dragdrop)
 Vue.use(Focus)
 Vue.component('panel', Panel)
+Vue.component('Block', BlockText)
 
 /* eslint-disable no-new */
 new Vue({

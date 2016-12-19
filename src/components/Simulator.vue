@@ -1,7 +1,7 @@
 <template>
 <div class="simulator iphone">
   <ul>
-    <tree-node v-for="item in items"></tree-node>
+    <tree-node v-for="item in pageComponents" :model="item"></tree-node>
   </ul>
 </div>
 </template>

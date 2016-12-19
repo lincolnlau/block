@@ -93,7 +93,8 @@ function checkAsyncFunction(opts, required) {
 function getRegenerator(opts, required) {
   try {
     if (!regenerator) {
-      regenerator = require('' + 'regenerator');
+      var name = 'regenerator';
+      regenerator = require(name);
       regenerator.runtime();
     }
     if (!opts.async || opts.async === true)
@@ -114,7 +115,10 @@ function regeneratorTranspile(code) {
 function getNodent(opts, required) {
   /* jshint evil: true */
   try {
-    if (!nodent) nodent = require('' + 'nodent')({ log: false, dontInstallRequireHook: true });
+    if (!nodent) {
+      var name = 'nodent';
+      nodent = require(name)({ log: false, dontInstallRequireHook: true });
+    }
     if (opts.async != 'es7') {
       if (opts.async && opts.async !== true) console.warn('nodent transpiles only es7 async functions');
       opts.async = 'es7';
@@ -497,7 +501,8 @@ var beautify;
 
 function loadBeautify(){
   if (beautify === undefined) {
-    try { beautify = require('' + 'js-beautify').js_beautify; }
+    var name = 'js-beautify';
+    try { beautify = require(name).js_beautify; }
     catch(e) { beautify = false; }
   }
 }
@@ -607,7 +612,7 @@ function compile(schema, root, localRefs, baseId) {
 
     sourceCode = vars(refVal, refValCode) + vars(patterns, patternCode)
                    + vars(defaults, defaultCode) + vars(customRules, customRuleCode)
-                   + sourceCode + 'return validate;';
+                   + sourceCode;
 
     if (opts.beautify) {
       loadBeautify();
@@ -4696,16 +4701,24 @@ module.exports = function generate_validate(it, $keyword) {
 var IDENTIFIER = /^[a-z_$][a-z0-9_$]*$/i;
 var customRuleCode = require('./dotjs/custom');
 
+module.exports = {
+  add: addKeyword,
+  get: getKeyword,
+  remove: removeKeyword
+};
+
 /**
  * Define custom keyword
  * @this  Ajv
  * @param {String} keyword custom keyword, should be a valid identifier, should be different from all standard, custom and macro keywords.
  * @param {Object} definition keyword definition object with properties `type` (type(s) which the keyword applies to), `validate` or `compile`.
  */
-module.exports = function addKeyword(keyword, definition) {
+function addKeyword(keyword, definition) {
+  /* jshint validthis: true */
   /* eslint no-shadow: 0 */
-  var self = this;
-  if (this.RULES.keywords[keyword])
+  var RULES = this.RULES;
+
+  if (RULES.keywords[keyword])
     throw new Error('Keyword ' + keyword + ' is already defined');
 
   if (!IDENTIFIER.test(keyword))
@@ -4724,7 +4737,7 @@ module.exports = function addKeyword(keyword, definition) {
 
     var $data = definition.$data === true && this._opts.v5;
     if ($data && !definition.validate)
-      throw new Error('$data support: neither "validate" nor "compile" functions are defined');
+      throw new Error('$data support: "validate" function is not defined');
 
     var metaSchema = definition.metaSchema;
     if (metaSchema) {
@@ -4736,17 +4749,17 @@ module.exports = function addKeyword(keyword, definition) {
           ]
         };
       }
-      definition.validateSchema = self.compile(metaSchema, true);
+      definition.validateSchema = this.compile(metaSchema, true);
     }
   }
 
-  this.RULES.keywords[keyword] = this.RULES.all[keyword] = true;
+  RULES.keywords[keyword] = RULES.all[keyword] = true;
 
 
   function _addRule(keyword, dataType, definition) {
     var ruleGroup;
-    for (var i=0; i<self.RULES.length; i++) {
-      var rg = self.RULES[i];
+    for (var i=0; i<RULES.length; i++) {
+      var rg = RULES[i];
       if (rg.type == dataType) {
         ruleGroup = rg;
         break;
@@ -4755,7 +4768,7 @@ module.exports = function addKeyword(keyword, definition) {
 
     if (!ruleGroup) {
       ruleGroup = { type: dataType, rules: [] };
-      self.RULES.push(ruleGroup);
+      RULES.push(ruleGroup);
     }
 
     var rule = {
@@ -4765,14 +4778,50 @@ module.exports = function addKeyword(keyword, definition) {
       code: customRuleCode
     };
     ruleGroup.rules.push(rule);
-    self.RULES.custom[keyword] = rule;
+    RULES.custom[keyword] = rule;
   }
 
 
   function checkDataType(dataType) {
-    if (!self.RULES.types[dataType]) throw new Error('Unknown type ' + dataType);
+    if (!RULES.types[dataType]) throw new Error('Unknown type ' + dataType);
   }
-};
+}
+
+
+/**
+ * Get keyword
+ * @this  Ajv
+ * @param {String} keyword pre-defined or custom keyword.
+ * @return {Object|Boolean} custom keyword definition, `true` if it is a predefined keyword, `false` otherwise.
+ */
+function getKeyword(keyword) {
+  /* jshint validthis: true */
+  var rule = this.RULES.custom[keyword];
+  return rule ? rule.definition : this.RULES.keywords[keyword] || false;
+}
+
+
+/**
+ * Remove keyword
+ * @this  Ajv
+ * @param {String} keyword pre-defined or custom keyword.
+ */
+function removeKeyword(keyword) {
+  /* jshint validthis: true */
+  var RULES = this.RULES;
+  delete RULES.keywords[keyword];
+  delete RULES.all[keyword];
+  delete RULES.custom[keyword];
+  for (var i=0; i<RULES.length; i++) {
+    var rules = RULES[i].rules;
+    for (var j=0; j<rules.length; j++) {
+      if (rules[j].keyword == keyword) {
+        rules.splice(j, 1);
+        break;
+      }
+    }
+  }
+}
 
 },{"./dotjs/custom":21}],38:[function(require,module,exports){
 module.exports={
@@ -7556,7 +7605,11 @@ var compileSchema = require('./compile')
 module.exports = Ajv;
 
 Ajv.prototype.compileAsync = async.compile;
-Ajv.prototype.addKeyword = require('./keyword');
+
+var customKeyword = require('./keyword');
+Ajv.prototype.addKeyword = customKeyword.add;
+Ajv.prototype.getKeyword = customKeyword.get;
+Ajv.prototype.removeKeyword = customKeyword.remove;
 Ajv.ValidationError = require('./compile/validation_error');
 
 var META_SCHEMA_ID = 'http://json-schema.org/draft-04/schema';

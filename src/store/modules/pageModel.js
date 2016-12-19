@@ -6,7 +6,7 @@ function genComponentSource (componentConfig) {
   const slots = componentConfig.slots
   const props = componentConfig.props
   const uuid = componentConfig._uuid
-  let string = '<' + componentConfig.name + ' _uuid="' + uuid + '" v-focus="{ _uuid:\'' + uuid + '\'}"'
+  let string = '<' + componentConfig.name + ' _uuid="' + uuid + '" v-focus="{ _uuid:\'' + uuid + '\'}" v-draggable:y="{dragged: \'dragged\', data: {_uuid:\'' + uuid + '\'}}"'
 
   if (props) {
     const keys = Object.keys(props)
@@ -24,15 +24,18 @@ function genComponentSource (componentConfig) {
     keys.forEach(function (item) {
       slots[item] = []
       if (item) {
-        string += '<div slot="' + item + '" class="__slot" v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + componentConfig._uuid + '\'}"></div>'
+        string += '<div slot="' + item + '" v-dropzone:x="{slot:\'' +
+          item + '\', _uuid:\'' + uuid + '\'}" class="__slot" ></div>'
       } else {
-        string += '<div v-dropzone:x="{slot:\'' + item + '\', _uuid:\'' + componentConfig._uuid + '\'}" class="__slot"></div>'
+        string += '<div v-dropzone:x="{slot:\'' + item +
+          '\', _uuid:\'' + uuid + '\'}"class="__slot" ></div>'
       }
     })
   }
 
   string += '</' + componentConfig.name + '>'
 
+  console.log(string)
   return string
 }
 
@@ -63,21 +66,6 @@ const actions = {
   addToVNode ({commit}, obj) {
     commit(types.ADD_TO_VNODE, obj)
   },
-  /**
-   *
-   * @param commit
-   * @param options
-   * {
-   *    _uuid: ''  // component uuid
-   *    props: {  // props value
-   *      'key1': value1
-   *      'key2': value2
-   *    }
-   * }
-     */
-  // setCurrentComponentProps ({commit}, options) {
-  //   commit(types.SET_CURRENT_COMPONENT_PROPS, options)
-  // },
 
   setCurrentNode ({commit}, options) {
     commit(types.SET_CURRENT_NODE, options._uuid)
@@ -114,43 +102,45 @@ const mutations = {
     const dropdata = options.dragData
     let component = dropdata.data
 
-    // 挂载数据
-    if (!state.componentsMap[component._uuid]) {
-      state.componentsMap[component._uuid] = component
-    }
-
-    state.currentComponent = component
-
-    // add component data to component tree
-    const parentConfig = options.parentConfig
-    if (parentConfig) {
-      const parentNode = state.componentsMap[parentConfig._uuid]
-      if (parentNode) {
-        parentNode.slots[parentConfig.slot].push(component)
+    if (options.arg === 'x') {
+      // 挂载数据
+      if (!state.componentsMap[component._uuid]) {
+        state.componentsMap[component._uuid] = component
       }
-    } else {
-      state.pageComponents.push(component)
-    }
 
-    const res = Vue.compile(genComponentSource(component))
-    const instance = new Vue({
-      name: component.name + '_Container',
-      render: res.render,
-      staticRenderFns: res.staticRenderFns,
-      parent: vnode.context,
-      store: Store,
-      data: function () {
-        return {
-          pageComponents: state.pageComponents,
-          componentsMap: state.componentsMap
+      state.currentComponent = component
+
+      // add component data to component tree
+      const parentConfig = options.parentConfig
+      if (parentConfig) {
+        const parentNode = state.componentsMap[parentConfig._uuid]
+        if (parentNode) {
+          parentNode.slots[parentConfig.slot].push(component)
         }
+      } else {
+        state.pageComponents.push(component)
       }
-    })
-    const newComponent = instance.$mount()
-    // const instanceComponent = newComponent.$children[0]
-    // newComponent.$children = []
-    vnode.elm.appendChild(newComponent.$el)
-    newComponent.$el.focus()
+
+      const res = Vue.compile(genComponentSource(component))
+      const instance = new Vue({
+        name: component.name + '_Container',
+        render: res.render,
+        staticRenderFns: res.staticRenderFns,
+        parent: vnode.context,
+        store: Store,
+        data: function () {
+          return {
+            pageComponents: state.pageComponents,
+            componentsMap: state.componentsMap
+          }
+        }
+      })
+      const newComponent = instance.$mount()
+      vnode.elm.appendChild(newComponent.$el)
+      newComponent.$el.focus()
+    } else if (options.arg === 'y') {
+      console.log(component)
+    }
   }
 }
 

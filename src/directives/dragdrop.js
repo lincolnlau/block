@@ -13,9 +13,9 @@ export default {
             const bd = binding
             dropTo = bd.arg
             dragData = JSON.parse(JSON.stringify(bd.value))
-            if (dragData.data) {
-              dragData.data._uuid = UUID.v1()
-            }
+            // if (dragData.data) {
+            //   dragData.data._uuid = UUID.v1()
+            // }
 
             event.target.classList.add(dragData.dragged)
             event.dataTransfer.effectAllowed = 'all'
@@ -88,7 +88,10 @@ export default {
             }
 
             if (dropTo === arg) {
-              Store.dispatch('addToVNode', {dragData: dragData, vnode: vnode, parentConfig: value})
+              if (dragData.data) {
+                dragData.data._uuid = UUID.v1()
+              }
+              Store.dispatch('addToVNode', {arg: arg, dragData: dragData, vnode: vnode, parentConfig: value})
               dragData = null
               event.target.classList.remove(arg)
             }
