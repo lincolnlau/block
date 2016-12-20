@@ -14,6 +14,7 @@ var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 module.exports = {
   entry: {
     app: './src/main.js',
+    preview: './src/preview.js',
     vender: [
       'underscore'
     ]

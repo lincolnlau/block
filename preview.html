@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <title>block</title>
+  <script>
+    !function(e) {
+      "use strict";
+      var n = document.documentElement,
+        i = window.devicePixelRatio;
+      i = i >= 3 ? 3 : i >= 2 ? 2 : 1;
+      var t = window.navigator.userAgent,
+        r = t.indexOf("Che2-TL00") >= 0,
+        a = t.indexOf("M351") >= 0 && t.indexOf("MQQBrowser") >= 0,
+        o = t.indexOf("MZ-m2") >= 0;
+      (r || a || o) && (i = 1);
+      var d, c = t.indexOf("iPhone") >= 0 && window.innerWidth > 740 && window.innerWidth < 760;
+      d = c ? 1 / i - .001 : 1 / i;
+      var m = document.querySelector('meta[name="viewport"]'),
+        s = "initial-scale=" + d + ",maximum-scale=" + d + ",minimum-scale=" + d + ",user-scalable=no";
+      if (m) m.setAttribute("content", s);
+      else {
+        var w = '<meta name="viewport" content="' + s + '"/>';
+        document.write(w)
+      }
+      var u = function() {
+        var t = n.clientWidth;
+        t / i > 450 && (t = 450 * i);
+        var r = t / e * 100;
+        n.style.fontSize = r + "px"
+      };
+      u(), window.addEventListener("resize", u)
+    }(750)
+  </script>
+</head>
+<body>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+</body>
+</html>

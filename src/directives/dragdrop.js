@@ -16,7 +16,7 @@ export default {
             // if (dragData.data) {
             //   dragData.data._uuid = UUID.v1()
             // }
-
+            event.dataTransfer.setData('text/plain', dropTo)
             event.target.classList.add(dragData.dragged)
             event.dataTransfer.effectAllowed = 'all'
             return false
@@ -46,6 +46,9 @@ export default {
       bind (el, binding, vnode) {
         const handler = {
           dragenter (event) {
+            if (event.preventDefault) {
+              event.preventDefault()
+            }
             const arg = binding.arg
             if (dropTo === arg && el === event.target) {
               event.target.classList.add(arg)
@@ -57,17 +60,21 @@ export default {
             if (event.preventDefault) {
               event.preventDefault()
             }
-            if (dropTo === binding.arg) {
-              event.dataTransfer.effectAllowed = 'all'
-              event.dataTransfer.dropEffect = 'copy'
-            } else {
-              event.dataTransfer.effectAllowed = 'none'
-              event.dataTransfer.dropEffect = 'none'
-            }
+
+            // if (dropTo === binding.arg || to === binding.arg) {
+            event.dataTransfer.effectAllowed = 'all'
+            event.dataTransfer.dropEffect = 'copy'
+            // } else {
+            //   event.dataTransfer.effectAllowed = 'none'
+            //   event.dataTransfer.dropEffect = 'none'
+            // }
             return false
           },
 
           dragleave (event) {
+            if (event.preventDefault) {
+              event.preventDefault()
+            }
             const bd = binding
             if (dropTo === bd.arg) {
               event.target.classList.remove(bd.arg)
@@ -87,7 +94,8 @@ export default {
               event.stopPropagation()
             }
 
-            if (dropTo === arg) {
+            const to = event.dataTransfer.getData('text')
+            if (to === arg) {
               if (dragData.data) {
                 dragData.data._uuid = UUID.v1()
               }

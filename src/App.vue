@@ -10,7 +10,8 @@
         <button class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-phone"></span>发布</button>
       </div>
       <div class="onerow rowflex">
-        <div class="onecloumn"><simulator class="iphone" :items="pageComponents"></simulator></div>
+        <!--<div class="onecloumn"><simulator class="iphone" :items="pageComponents"></simulator></div>-->
+        <div class="onecloumn"><iframe src="preview.html" class="iphone"></iframe></div>
         <div class="onecloumn"><preview></preview></div>
       </div>
     </div>
