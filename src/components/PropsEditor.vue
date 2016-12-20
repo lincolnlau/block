@@ -1,18 +1,44 @@
 <template>
   <div class="tworow">
     <form class="form-horizontal" v-if="currentComponent && currentComponent.props">
-      <div v-for="(v, k) in currentComponent.props" class="form-group">
-        <label class="col-md-4 control-label">{{v.label}}</label>
-        <div class="col-md-8"><input class="form-control" v-model="v.default"/></div>
-      </div>
-      <div class="form-group">
-        <label class="col-md-4 control-label">时间</label>
-        <div class="col-md-4 control-label"><datepicker v-model="dateTime"></datepicker></div>
-      </div>
-      <div class="form-group">
-        <label class="col-md-4 control-label">颜色 <div class="bg-color" :style="{'background-color':bgc}">当前颜色</div></label>
-        <div class="col-md-8">
-          <chrome-picker v-model="colors" @change-color="onChange"></chrome-picker>
+      <div v-for="(v, k, index) in currentComponent.props" class="form-group">
+        <label class="col-md-4 control-label" :title="v.description">{{index}}-{{v.label}}</label>
+        <div class="col-md-8" v-if="v.type === 'image'">
+          <div class="input-group">
+            <input type="text" class="form-control" v-model="v.default">
+            <span class="input-group-btn">
+              <vue-core-image-upload v-model="v.default" :class="['btn','btn-primary']" text="上传" :imageuploaded="imageUploaded"></vue-core-image-upload>
+            </span>
+          </div>
+        </div>
+
+        <div class="col-md-8" v-else-if="v.type === 'datetime'">
+          <vue-date v-model="v.default"/>
+        </div>
+        <div class="col-md-8" v-else-if="v.type === 'switch'">
+          <label class="radio-inline">
+            <input type="radio" :name="k" v-model="v.default"  :value="true">是
+          </label>
+          <label class="radio-inline">
+            <input type="radio" :name="k" v-model="v.default" :value="false">否
+          </label>
+        </div>
+        <div class="col-md-16" v-else-if="v.type === 'array'">
+          <array-component :array-obj="v" :array-list="arrayList" :index="index" v-for="(item, i) in arrayList"></array-component>
+          <button type="button" class="btn-primary" @click="addItem">+</button>
+        </div>
+        <div class="col-md-8" v-else-if="v.type === 'textarea'">
+          <textarea class="form-control" v-model="v.default"></textarea>
+        </div>
+        <div class="col-md-8" v-else-if="v.type === 'datetime'">
+          <datepicker v-model="dateTime"></datepicker>
+        </div>
+        <div class="col-md-8" v-else-if="v.type === 'color'">
+          <input type="text" v-model="v.default"><button type="button" class="btn-primary" @click="toggleColorPanel(index)">色板</button>
+          <chrome-picker v-model="colors" v-show="" @change-color="onChange"></chrome-picker>
+        </div>
+        <div class="col-md-8" v-else>
+          <input type="text" class="form-control" v-model="v.default"/>
         </div>
       </div>
     </form>
@@ -20,61 +46,52 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import datepicker from 'vue-date'
 import {Chrome} from 'vue-color'
-let defaultProps = {
-  hex: '#194d33',
-  hsl: {
-    h: 150,
-    s: 0.5,
-    l: 0.2,
-    a: 1
-  },
-  hsv: {
-    h: 150,
-    s: 0.66,
-    v: 0.30,
-    a: 1
-  },
-  rgba: {
-    r: 25,
-    g: 77,
-    b: 51,
-    a: 1
-  },
-  a: 1
-}
+import datepicker from 'vue-date'
+import VueCoreImageUpload from 'vue2.x-core-image-upload'
+import arrayComponent from './ArrayComponent.vue'
 
 export default {
   name: 'propsEditor',
   data: function () {
     return {
-      dateTime: '',
-      colors: defaultProps
+      arrayList: [],
+      src: '',
+      selectedColor: '',
+      colors: {
+        hex: '#194d33',
+        hsl: {
+          h: 150,
+          s: 0.5,
+          l: 0.2,
+          a: 1
+        },
+        hsv: {
+          h: 150,
+          s: 0.66,
+          v: 0.30,
+          a: 1
+        },
+        rgba: {
+          r: 25,
+          g: 77,
+          b: 51,
+          a: 1
+        },
+        a: 1
+      }
     }
   },
   watch: {
     currentComponent (res) {
       console.log(JSON.stringify(res))
-    },
-    colors (res) {
-      console.log(res.hex)
     }
   },
   components: {
+    'chrome-picker': Chrome,
     datepicker,
-    'chrome-picker': Chrome
-  },
-  methods: {
-    onOk () {
-      console.log('ok')
-    },
-    onCancel () {
-      console.log('cancel')
-    },
-    onChange (val) {
-      this.colors = val
-    }
+    VueCoreImageUpload,
+    arrayComponent
   },
   computed: {
     ...mapGetters({
@@ -82,9 +99,21 @@ export default {
       pageComponents: 'pageComponents',
       currentComponent: 'currentComponent',
       componentsMap: 'componentsMap'
-    }),
-    bgc () {
-      return this.colors.hex
+    })
+  },
+  methods: {
+    addItem () {
+
+    },
+    toggleColorPanel () {
+
+    },
+    onChange (val) {
+      this.selectedColor = val.hex
+      console.log('default' + val.hex + 'color:' + this.colors.hex)
+    },
+    imageUploaded (res) {
+      this.src = 'http://img1.vued.vanthink.cn/vued751d13a9cb5376b89cb6719e86f591f3.png'
     }
   }
 }
