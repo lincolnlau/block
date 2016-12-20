@@ -16,10 +16,13 @@
           <vue-date v-model="v.default"/>
         </div>
         <div class="col-md-8" v-else-if="v.type === 'color'">
-          <!--<input type="text" class="form-control" v-model="v.default"/>-->
-          <chrome-picker v-model="colors"></chrome-picker>
+          <div class="input-group">
+            <input type="text" class="form-control" v-model="v.default">
+            <span class="input-group-btn">
+              <button class="btn btn-primary">选择</button>
+            </span>
+          </div>
         </div>
-
         <div class="col-md-8" v-else-if="v.type === 'switch'">
           <label class="radio-inline">
             <input type="radio" :name="k" v-model="v.default"  :value="true">是
@@ -34,7 +37,6 @@
         <div class="col-md-8" v-else>
           <input type="text" class="form-control" v-model="v.default"/>
         </div>
-
       </div>
       </from>
   </div>

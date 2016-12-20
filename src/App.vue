@@ -134,6 +134,7 @@ html, body {
   flex:4;
   border-top: 1px solid #ccc;
   padding:10px 5px 10px 5px;
+  overflow-y: scroll;
 }
 
 .dragged {
