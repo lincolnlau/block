@@ -3,12 +3,19 @@
     <div class="leftpanel">
       <component-list :items="componentModels"></component-list>
     </div>
-    <div class="mainpanel">
-      <div class="onecloumn"><simulator class="iphone" :items="pageComponents"></simulator></div>
-      <div class="onecloumn"><preview></preview></div>
+    <div class="mainpanel columnflex">
+      <div class="menuarea">
+        <button class="btn btn-success btn-sm pull-right"><span class="glyphicon glyphicon-save"></span>保存</button>
+        <button class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-phone"></span>预览</button>
+        <button class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-phone"></span>发布</button>
+      </div>
+      <div class="onerow rowflex">
+        <div class="onecloumn"><simulator class="iphone" :items="pageComponents"></simulator></div>
+        <div class="onecloumn"><preview></preview></div>
+      </div>
     </div>
     <div class="rightpanel">
-      <div class="onerow">This is a component's description</div>
+      <div class="onerow">{{ (currentComponent && currentComponent.description) || "欢迎使用Block平台开发您的应用"}}</div>
       <props-editor :model="currentComponent" class="tworow"></props-editor>
     </div>
   </div>
@@ -83,12 +90,26 @@ html, body {
 .leftpanel {
   width:240px;
 }
+.rowflex {
+  flex-direction: row;
+  display: flex;
+}
+.columnflex {
+  flex-direction: column;
+  display: flex;
+}
 .mainpanel {
   flex:1;
   border: 1px solid #ccc;
   border-width: 0 1px;
-  flex-direction:row;
-  display: flex;
+}
+.menuarea {
+  height: 40px;
+  padding: 5px 10px;
+}
+
+.menuarea button {
+  margin-right: 10px;
 }
 .rightpanel {
   width:300px;
@@ -110,7 +131,7 @@ html, body {
 
 .tworow {
   display:flex;
-  flex:2;
+  flex:4;
   border-top: 1px solid #ccc;
   padding:10px 5px 10px 5px;
 }
