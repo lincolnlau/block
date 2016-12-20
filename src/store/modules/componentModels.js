@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import ComponentText from '@hfe/block-component-text/description.json'
+import ComponentScrollText from '@hfe/block-component-scrolling-text-single/description.json'
 // var json = require('json!@hfe.block-component-text/description.json')
 
 // init state
@@ -45,7 +46,8 @@ const state = {
         }
       }
     },
-    ComponentText
+    ComponentText,
+    ComponentScrollText
   ]
 }
 
