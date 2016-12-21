@@ -9,7 +9,7 @@ export default {
         var value = binding.value
 
         function handler (event) {
-          Store.dispatch('setCurrentNode', value)
+          Store.dispatch('setCurrentNodeId', value)
         }
 
         el.addEventListener('focus', handler)

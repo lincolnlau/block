@@ -1,17 +1,17 @@
 <template>
-  <li>
+  <div>
     <div class="treeNode">
       <span :class="['text-success', 'glyphicon', openStatusClass]" @click="toggle()"></span><span class="bg-success text-success">{{model.name}}</span>
     </div>
-    <ul v-show="open" v-if="hasSlots" class="slotsArea">
-      <li v-for="(children, name) in model.slots">
+    <div v-show="open" v-if="hasSlots" class="slotsArea">
+      <div v-for="(children, name) in model.slots">
         <div class="treeNodeSlot"><span class="text-info glyphicon glyphicon-unchecked"></span><span class="bg-info text-info">{{name || 'default'}}</span></div>
-        <ul>
+        <div>
           <tree-node v-for="m in children" :model="m"></treenode>
-        </ul>
-      </li>
-    </ul>
-  </lii>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

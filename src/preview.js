@@ -3,6 +3,7 @@
  */
 
 import Vue from 'vue'
+import Vuex from 'vuex'
 import Dragdrop from './directives/dragdrop'
 import Focus from './directives/focus'
 
@@ -30,6 +31,8 @@ import BlockGridCell from '@hfe/block-component-grid-cell'
 
 import store from './store'
 import PhonePreview from './components/PhonePreview'
+
+Vue.use(Vuex)
 
 Vue.use(Dragdrop)
 Vue.use(Focus)
@@ -62,5 +65,19 @@ new Vue({
   template: '<PhonePreview/>',
   components: {
     PhonePreview
+  }
+})
+
+window.addEventListener('message', function (event) {
+  var data = event.data
+  if (data._uuid) {
+    // 更新 NODE
+    const props = data.props
+    const curProps = store.getters.currentComponent.props
+
+    Object.keys(props).forEach(function (key) {
+      const item = props[key]
+      curProps[key].default = item.default
+    })
   }
 })

@@ -77,20 +77,26 @@ export default {
   components: {
     'chrome-picker': Chrome,
     datepicker
-
   },
   computed: {
     ...mapGetters({
-      componentModels: 'componentModels',
-      pageComponents: 'pageComponents',
-      currentComponent: 'currentComponent',
-      componentsMap: 'componentsMap'
+      // componentModels: 'componentModels',
+      // pageComponents: 'pageComponents',
+      // componentsMap: 'componentsMap',
+      currentComponent: 'current'
+    })
+  },
+  created () {
+    this.$watch('currentComponent', function (val, oldVal) {
+      const contentWindow = document.getElementById('previewFrame').contentWindow
+      contentWindow.postMessage(val, window.location.origin)
+    }, {
+      deep: true
     })
   },
   methods: {
     onChange (val, obj) {
       this.color = val
-      console.log(obj)
     }
   }
 }

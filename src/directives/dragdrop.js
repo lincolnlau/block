@@ -16,7 +16,12 @@ export default {
             // if (dragData.data) {
             //   dragData.data._uuid = UUID.v1()
             // }
-            event.dataTransfer.setData('text/plain', dropTo)
+            var obj = {
+              arg: dropTo,
+              dragData: bd.value
+            }
+
+            event.dataTransfer.setData('text/plain', JSON.stringify(obj))
             event.target.classList.add(dragData.dragged)
             event.dataTransfer.effectAllowed = 'all'
             return false
@@ -94,12 +99,14 @@ export default {
               event.stopPropagation()
             }
 
-            const to = event.dataTransfer.getData('text')
-            if (to === arg) {
-              if (dragData.data) {
-                dragData.data._uuid = UUID.v1()
+            const options = JSON.parse(event.dataTransfer.getData('text'))
+            const dargdata = options.dragData
+            if (options.arg === arg) {
+              if (dargdata.data) {
+                dargdata.data._uuid = UUID.v1()
               }
-              Store.dispatch('addToVNode', {arg: arg, dragData: dragData, vnode: vnode, parentConfig: value})
+              // Store.dispatch('addToVNode', {arg: arg, dragData: dargdata, vnode: vnode, parentConfig: value})
+              Store.dispatch('addNode', {arg: arg, dragData: dargdata, vnode: vnode, parentConfig: value})
               dragData = null
               event.target.classList.remove(arg)
             }

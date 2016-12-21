@@ -27,7 +27,7 @@ import BlockTab from '@hfe/block-component-tab-element'
 import BlockGridContainer from '@hfe/block-component-grid-container'
 import BlockGridCell from '@hfe/block-component-grid-cell'
 
-import store from './store'
+import store from './store/treeStore'
 import App from './App'
 
 Vue.use(Dragdrop)
@@ -64,34 +64,14 @@ new Vue({
   }
 })
 
-// /* eslint-disable no-new */
-// new Vue({
-//   el: '#componentsList',
-//   store,
-//   template: '<component-list/>'
-// })
-//
-// /* eslint-disable no-new */
-// new Vue({
-//   el: '#preview',
-//   store,
-//   template: '<preview></preview>',
-//   computed: {
-//     pageComponents: store.getters.pageComponents
-//   }
-// })
-//
-// /* eslint-disable no-new */
-// new Vue({
-//   el: '#simulator',
-//   store,
-//   template: '<simulator/>'
-// })
-//
-// /* eslint-disable no-new */
-// new Vue({
-//   el: '#propsEditor',
-//   store,
-//   template: '<props-editor/>'
-// })
-
+window.addEventListener('message', function (event) {
+  // console.log(e.origin)
+  var origin = event.origin || event.originalEvent.origin
+  console.log('origin is === ' + origin)
+  var data = event.data
+  console.log(data)
+  if (data._uuid) {
+    // store.state.currentComponent = data
+    store.dispatch('setCurrentNode', data)
+  }
+}, false)

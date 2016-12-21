@@ -1,5 +1,5 @@
 <template>
-<div slot class="preview" v-dropzone:x ></div>
+<div slot class="preview"  v-dropzone:x ></div>
 </template>
 <style>
 .preview {

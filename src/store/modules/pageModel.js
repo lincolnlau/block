@@ -1,7 +1,7 @@
 import * as types from '../mutation-types'
-import Vue from 'vue'
-import Store from '../index'
+import genComponent from '../../utils/genComponent'
 
+/*
 function genComponentSource (componentConfig) {
   const slots = componentConfig.slots
   const props = componentConfig.props
@@ -34,11 +34,10 @@ function genComponentSource (componentConfig) {
   }
 
   string += '</' + componentConfig.name + '>'
-
-  console.log(string)
   return string
 }
 
+*/
 const state = {
   // 存储component 之间的关系
   pageComponents: [],
@@ -67,8 +66,12 @@ const actions = {
     commit(types.ADD_TO_VNODE, obj)
   },
 
-  setCurrentNode ({commit}, options) {
-    commit(types.SET_CURRENT_NODE, options._uuid)
+  setCurrentNode ({commit}, obj) {
+    commit(types.SET_CURRENT_NODE, obj)
+  },
+
+  setCurrentNodeId ({commit}, options) {
+    commit(types.SET_CURRENT_NODEID, options._uuid)
   }
 }
 
@@ -77,7 +80,11 @@ const mutations = {
     state.pageComponents.push(component)
   },
 
-  [types.SET_CURRENT_NODE] (state, uuid) {
+  [types.SET_CURRENT_NODE] (state, node) {
+    state.currentComponent = node
+  },
+
+  [types.SET_CURRENT_NODEID] (state, uuid) {
     state.currentComponent = state.componentsMap[uuid]
   },
 
@@ -121,6 +128,16 @@ const mutations = {
         state.pageComponents.push(component)
       }
 
+      // 如果是iframe页面
+      if (window.parent !== window) {
+        const location = window.location
+        let target = location.origin
+        console.log(target)
+        window.parent.postMessage(component, target)
+      } else {
+        console.log('in parent window')
+      }
+      /*
       const res = Vue.compile(genComponentSource(component))
       const instance = new Vue({
         name: component.name + '_Container',
@@ -138,6 +155,10 @@ const mutations = {
       const newComponent = instance.$mount()
       vnode.elm.appendChild(newComponent.$el)
       newComponent.$el.focus()
+      */
+      if (window !== window.parent) {
+        genComponent(component, state.componentsMap, vnode)
+      }
     } else if (options.arg === 'y') {
       console.log(component)
     }

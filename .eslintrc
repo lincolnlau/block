@@ -5,6 +5,8 @@
     "allowImportExportEverywhere": false
   },
   "globals": {
-    "Vue": true
+    "Vue": true,
+    "window": true,
+    "document": true
   }
 }
