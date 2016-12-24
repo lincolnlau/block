@@ -111,7 +111,7 @@ export default {
   },
   watch: {
     currentComponent (res) {
-      console.log(JSON.stringify(res))
+      // console.log(JSON.stringify(res))
     }
   },
   created () {
@@ -154,9 +154,6 @@ export default {
     },
     changeSingleSelection (v) {
       v.default = this.singleSelected
-    },
-    formatDatetime (datetime) {
-      console.log(datetime)
     }
   }
 }
