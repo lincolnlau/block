@@ -23,6 +23,9 @@
           <array-component :array-obj="item" :structure="v.items" :array-list="v.default" :index="i" v-for="(item, i) in v.default"></array-component>
           <button type="button" class="btn btn-primary col-md-8" @click="addItem(v)">+</button>
         </div>
+        <div class="form-group" v-else-if="v.type === 'object'">
+          <object-component :structure="v.items" :obj-default.sync="v.default"></object-component>
+        </div>
         <div class="col-md-8" v-else-if="v.type === 'textarea'">
           <textarea class="form-control" v-model="v.default"></textarea>
         </div>
@@ -56,9 +59,9 @@
           </div>
         </div>
         <div class="col-md-8" v-else-if="v.type === 'multiple-selection'">
-            <label class="checkbox-inline" v-for="item in v.options">
-              <input type="checkbox" v-model="v.default" value="item.value">{{item.name}}
-            </label>
+          <label class="checkbox-inline" v-for="item in v.options">
+            <input type="checkbox" v-model="v.default" value="item.value">{{item.name}}
+          </label>
         </div>
         <div class="col-md-8" v-else>
           <input type="text" class="form-control" v-model="v.default"/>
@@ -73,6 +76,7 @@ import {Chrome} from 'vue-color'
 import datepicker from 'vue-date'
 import VueCoreImageUpload from 'vue2.x-core-image-upload'
 import arrayComponent from './ArrayComponent.vue'
+import objectComponent from './ObjectComponent.vue'
 
 export default {
   name: 'propsEditor',
@@ -81,7 +85,7 @@ export default {
       singleSelected: '',
       selectedId: -1,
       arrayList: [],
-      arraySet: {},
+      objList: {},
       src: '',
       selectedObj: {},
       result1: null,
@@ -111,17 +115,28 @@ export default {
   },
   watch: {
     currentComponent (res) {
-      // console.log(JSON.stringify(res))
+      let props = res.props
+      let items
+      let obj
+      for (var key in props) {
+        if (props[key].type === 'object') {
+          items = props[key].items
+          obj = props[key].default
+          for (var k in items) {
+            obj[k] = items[k].default
+          }
+          props[key].default = JSON.parse(JSON.stringify(obj))
+        }
+      }
+      this.currentComponent.props = JSON.parse(JSON.stringify(props))
     }
-  },
-  created () {
-    this.arraySet = new Set()
   },
   components: {
     'chrome-picker': Chrome,
     datepicker,
     VueCoreImageUpload,
-    arrayComponent
+    arrayComponent,
+    objectComponent
   },
   computed: {
     ...mapGetters({
@@ -150,7 +165,7 @@ export default {
       this.selectedObj.default = val.hex
     },
     imageUploaded (res) {
-      this.src = 'http://img1.vued.vanthink.cn/vued751d13a9cb5376b89cb6719e86f591f3.png'
+      this.src = ''
     },
     changeSingleSelection (v) {
       v.default = this.singleSelected
