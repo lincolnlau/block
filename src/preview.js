@@ -73,7 +73,7 @@ window.addEventListener('message', function (event) {
   if (data._uuid) {
     // 更新 NODE
     const props = data.props
-    const curProps = store.getters.currentComponent.props
+    const curProps = store.getters.current.props
 
     Object.keys(props).forEach(function (key) {
       const item = props[key]
