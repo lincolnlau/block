@@ -1,148 +1,29 @@
 <template>
   <div id="app">
-    <div class="leftpanel">
-      <component-list :items="componentModels"></component-list>
-    </div>
-    <div class="mainpanel columnflex">
-      <div class="menuarea">
-        <button class="btn btn-success btn-sm pull-right"><span class="glyphicon glyphicon-save"></span>保存</button>
-        <button class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-phone"></span>预览</button>
-        <button class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-phone"></span>发布</button>
-      </div>
-      <div class="onerow rowflex">
-        <div class="onecloumn"><simulator class="iphone" :items="pageComponents"></simulator></div>
-        <div class="onecloumn"><iframe id="previewFrame" src="preview.html" class="iphone"></iframe></div>
-        <!--<div class="onecloumn"><preview></preview></div>-->
-      </div>
-    </div>
-    <div class="rightpanel">
-      <div class="onerow">{{ (currentComponent && currentComponent.description) || "欢迎使用Block平台开发您的应用"}}</div>
-      <props-editor :model="currentComponent" class="tworow"></props-editor>
-    </div>
+    <img src="./assets/logo.png">
+    <hello></hello>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import ComponentList from './components/ComponentList'
-import Simulator from './components/Simulator'
-import Preview from './components/Preview'
-import PropsEditor from './components/PropsEditor'
-
+import ElementUI from 'element-ui'
+import Hello from './components/Hello'
+console.log(ElementUI)
 export default {
   name: 'app',
   components: {
-    ComponentList,
-    Simulator,
-    Preview,
-    PropsEditor
-  },
-  computed: {
-    ...mapGetters({
-      componentModels: 'componentModels',
-      pageComponents: 'pageComponents',
-      currentComponent: 'currentComponent',
-      componentsMap: 'componentsMap'
-    })
+    Hello
   }
 }
 </script>
 
 <style>
-html, body {
-  height: 100%;
-  margin: 0;
-}
-
-.iphone {
-    width: 320px;
-    height: 568px;
-    border: 1px solid #ccc;
-    margin:40px auto;
-    overflow: auto;
-}
-
-/* Prevent the text contents of draggable elements from being selectable. */
-[draggable] {
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    /* Required to make elements draggable in old WebKit */
-    -khtml-user-drag: element;
-    -webkit-user-drag: element;
-}
-
-.__slot {
-  border: 1px dashed #ccc !important;
-  min-height:20px;
-  height: 100%;
-}
-
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-align: center;
   color: #2c3e50;
-  display: flex;
-  height: 100%;
-  border: 1px solid #ccc;
-}
-.leftpanel {
-  width:240px;
-}
-.rowflex {
-  flex-direction: row;
-  display: flex;
-}
-.columnflex {
-  flex-direction: column;
-  display: flex;
-}
-.mainpanel {
-  flex:1;
-  border: 1px solid #ccc;
-  border-width: 0 1px;
-}
-.menuarea {
-  height: 40px;
-  padding: 5px 10px;
-}
-
-.menuarea button {
-  margin-right: 10px;
-}
-.rightpanel {
-  width:300px;
-  flex-direction:column;
-  display: flex;
-}
-
-.onecloumn {
-  display: flex;
-  flex: 1;
-}
-
-.onerow {
-  display:flex;
-  flex:1;
-  border-top: 1px solid #ccc;
-  padding:10px 5px 10px 5px;
-}
-
-.tworow {
-  display:flex;
-  flex:4;
-  border-top: 1px solid #ccc;
-  padding:10px 5px 10px 5px;
-  overflow-y: scroll;
-}
-
-.dragged {
-    opacity: 0.4;
-    color: black;
-}
-.x {
-    border: 2px dashed #ddd;
+  margin-top: 60px;
 }
 </style>
