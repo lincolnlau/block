@@ -790,7 +790,369 @@ const Form = {
         }
       ]
     },
-    
+    {
+      name: 'elSwitch',
+      label: 'Switch 开关',
+      description: '表示两种相互对立的状态间的切换，多用于触发「开/关」。',
+      props:[
+        {
+          name: 'v-model',
+          description: 'v-model',
+          type: 'string'
+        },
+        {
+          name: 'width',
+          description: 'switch 的宽度（像素）,58（有文字）/ 46（无文字）',
+          type: 'number',
+          // default: '58',
+          default: false
+        },
+        {
+          name: 'disabled',
+          description: '是否禁用',
+          type: 'boolean',
+          default: false
+        },
+        {
+          name: 'on-icon-class',
+          description: 'switch 打开时所显示图标的类名，设置此项会忽略 on-text',
+          type: 'string'
+        },
+        {
+          name: 'off-icon-class',
+          description: 'switch 关闭时所显示图标的类名，设置此项会忽略 off-text',
+          type: 'string'
+        },
+        {
+          name: 'on-text',
+          description: 'switch 打开时的文字',
+          type: 'string',
+          default: 'ON'
+        },
+        {
+          name: 'off-text',
+          description: 'switch 关闭时的文字',
+          type: 'string',
+          default: 'OFF'
+        },
+        {
+          name: 'on-color',
+          description: 'switch 打开时的背景色',
+          type: 'string',
+          default: '#20A0FF'
+        },
+        {
+          name: 'off-color',
+          description: 'switch 关闭时的背景色',
+          type: 'string',
+          default: '#C0CCDA'
+        },
+        {
+          name: 'name',
+          description: 'switch 对应的 name 属性',
+          type: 'string'
+        }
+      ],
+      events: [
+        {
+          name: 'change',
+          description:'switch 状态发生变化时的回调函数',
+          callbackParams: '新状态的布尔值'
+        }
+      ]
+    },
+    {
+      name: 'elSlider',
+      label: 'Slider 滑块',
+      description: '通过拖动滑块在一个固定区间内进行选择',
+      props:[
+        {
+          name: 'v-model',
+          description: 'v-model',
+          type: 'string'
+        },
+        {
+          name: 'min',
+          description: '最小值',
+          type: 'number',
+          default: 0
+        },
+        {
+          name: 'max',
+          description: '最大值',
+          type: 'number',
+          default: 100
+        },
+        {
+          name: 'disabled',
+          description: '是否禁用',
+          type: 'boolean',
+          default: false
+        },
+        {
+          name: 'step',
+          description: '步长',
+          type: 'number',
+          default: 1
+        },
+        {
+          name: 'show-input',
+          description: '是否显示输入框',
+          type: 'boolean',
+          default: false
+        },
+        {
+          name: 'show-stops',
+          description: '是否显示间断点',
+          type: 'boolean',
+          default: false
+        }
+      ],
+      events: [
+        {
+          name: 'change',
+          description:'值改变时触发（使用鼠标拖曳时，只在松开鼠标后触发）',
+          callbackParams: '改变后的值'
+        }
+      ]
+    },
+    {
+      name: 'elTimeSelect',
+      label: 'TimeSelect 固定时间点',
+      description: '使用 el-time-select 标签，分别通过star、end和step指定可选的起始时间、结束时间和步长',
+      props:[
+        {
+          name: 'v-model',
+          description: 'v-model',
+          type: 'string'
+        },
+        {
+          name: 'readonly',
+          description: '完全只读',
+          type: 'boolean',
+          default: false
+        },
+        {
+          name: 'disabled',
+          description: '禁用',
+          type: 'boolean',
+          default: false
+        },
+        {
+          name: 'editable',
+          description: '文本框可输入',
+          type: 'boolean',
+          default: true
+        },
+        {
+          name: 'clearable',
+          description: '是否显示清除按钮',
+          type: 'boolean',
+          default: true
+        },
+        {
+          name: 'size',
+          description: '输入框尺寸',
+          type: 'string',
+          acceptValues:[
+            'large',
+            'small',
+            'mini'
+          ]
+        },
+        {
+          name: 'placeholder',
+          description: '占位内容',
+          type: 'string'
+        },
+        {
+          name: 'format',
+          description: '时间格式化, 小时：HH，分：mm，秒：ss',
+          type: 'string',
+          default: 'HH:mm:ss'
+        },
+        {
+          name: 'value',
+          description: '绑定值',
+          type: 'TimePicker: DateTimeSelect: String'
+        },
+        {
+          name: 'align',
+          description: '对齐方式',
+          type: 'string',
+          default: 'left',
+          acceptValues:[
+            'left',
+            'center',
+            'right'
+          ]
+        },
+        {
+          name: 'popper-class',
+          description: 'TimePicker 下拉框的类名',
+          type: 'string'
+        },
+        {
+          name: 'picker-options',
+          description: '当前时间日期选择器特有的选项',
+          type: 'TimeSelectOption',
+          default: {}
+        }
+      ],
+      events:[
+        {
+          name: 'change',
+          description:'当 input 的值改变时触发，返回值和文本框一致',
+          callbackParams: 'formatted value'
+        }
+      ],
+      definitions: [
+        {
+          name: 'TimeSelectOption',
+          props: [
+            {
+              name: 'start',
+              description: '开始时间',
+              type: 'string',
+              default: '09:00'
+            },
+            {
+              name: 'end',
+              description: '结束时间',
+              type: 'string',
+              default: '18:00'
+            },
+            {
+              name: 'step',
+              description: '间隔时间',
+              type: 'string',
+              default: '00:15'
+            },
+            {
+              name: 'minTime',
+              description: '最小时间，小于该时间的时间段将被禁用',
+              type: 'string',
+              default: '00:00'
+            },
+            {
+              name: 'maxTime',
+              description: '最大时间，大于该时间的时间段将被禁用',
+              type: 'string'
+            },
+            {
+              name: '',
+              description: '',
+              type: 'string',
+              default: '09:00'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      name: 'elTimePicker',
+      label: 'TimePicker 任意时间点',
+      description: '使用 el-time-picker 标签，通过selectableRange限制可选时间范围',
+      props:[
+        {
+          name: 'v-model',
+          description: 'v-model',
+          type: 'string'
+        },
+        {
+          name: 'readonly',
+          description: '完全只读',
+          type: 'boolean',
+          default: false
+        },
+        {
+          name: 'disabled',
+          description: '禁用',
+          type: 'boolean',
+          default: false
+        },
+        {
+          name: 'editable',
+          description: '文本框可输入',
+          type: 'boolean',
+          default: true
+        },
+        {
+          name: 'clearable',
+          description: '是否显示清除按钮',
+          type: 'boolean',
+          default: true
+        },
+        {
+          name: 'size',
+          description: '输入框尺寸',
+          type: 'string',
+          acceptValues:[
+            'large',
+            'small',
+            'mini'
+          ]
+        },
+        {
+          name: 'placeholder',
+          description: '占位内容',
+          type: 'string'
+        },
+        {
+          name: 'format',
+          description: '时间格式化, 小时：HH，分：mm，秒：ss',
+          type: 'string',
+          default: 'HH:mm:ss'
+        },
+        {
+          name: 'value',
+          description: '绑定值',
+          type: 'TimePicker: DateTimeSelect: String'
+        },
+        {
+          name: 'align',
+          description: '对齐方式',
+          type: 'string',
+          default: 'left',
+          acceptValues:[
+            'left',
+            'center',
+            'right'
+          ]
+        },
+        {
+          name: 'popper-class',
+          description: 'TimePicker 下拉框的类名',
+          type: 'string'
+        },
+        {
+          name: 'picker-options',
+          description: '当前时间日期选择器特有的选项',
+          type: 'TimeSelectOption',
+          default: {}
+        }
+      ],
+      events:[
+        {
+          name: 'change',
+          description:'当 input 的值改变时触发，返回值和文本框一致',
+          callbackParams: 'formatted value'
+        }
+      ],
+      definitions:[
+        {
+          name: 'TimePickerOptions',
+          props: [
+            {
+              name: 'selectableRange',
+              description: '可选时间段，例如\'18:30:00 - 20:30:00\'或者传入数组[\'09:30:00 - 12:00:00\', \'14:30:00 - 18:30:00\']',
+              type: ['string', 'array']
+            }
+          ]
+
+        }
+      ]
+    }
   ]
 }
 

@@ -2,47 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="073ea00f-9ba2-4927-a202-1ce0d37e7c44" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/libs/element-ui.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/Alert.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/Select.vue" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/container/Panel.vue" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/preview.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/components/ComponentList.vue" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/components/PhonePreview.vue" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/components/Preview.vue" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/components/PropsEditor.vue" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/components/Simulator.vue" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/components/TreeNode.vue" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/components/ViewContainer.vue" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/directives/dragdrop.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/directives/focus.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/generator/generator.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/generator/templates/vue.ejs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/preview.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/store/actions.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/store/getters.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/store/index.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/store/modules/componentModels.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/store/modules/componentTree.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/store/modules/pageModel.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/store/mutation-types.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/store/treeStore.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/utils/genComponent.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.babelrc" afterPath="$PROJECT_DIR$/.babelrc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/dev-server.js" afterPath="$PROJECT_DIR$/build/dev-server.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/webpack.base.conf.js" afterPath="$PROJECT_DIR$/build/webpack.base.conf.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/webpack.dev.conf.js" afterPath="$PROJECT_DIR$/build/webpack.dev.conf.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/index.js" afterPath="$PROJECT_DIR$/config/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/debug/Readme.md" afterPath="$PROJECT_DIR$/node_modules/debug/Readme.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/App.vue" afterPath="$PROJECT_DIR$/src/App.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.js" afterPath="$PROJECT_DIR$/src/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/index.js" afterPath="$PROJECT_DIR$/test/unit/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/karma.conf.js" afterPath="$PROJECT_DIR$/test/unit/karma.conf.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/libs/Collapse.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/libs/CollapseItem.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/libs/element-ui.js" afterPath="$PROJECT_DIR$/src/libs/element-ui.js" />
     </list>
     <ignored path="block.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -87,14 +50,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="element-ui.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="element-ui.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/libs/element-ui.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="534">
-              <caret line="792" column="4" selection-start-line="792" selection-start-column="4" selection-end-line="792" selection-end-column="4" />
+            <state relative-caret-position="360">
+              <caret line="1154" column="5" selection-start-line="1154" selection-start-column="5" selection-end-line="1154" selection-end-column="5" />
               <folding>
                 <element signature="e#0#44#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Collapse.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/libs/Collapse.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="18" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CollapseItem.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/libs/CollapseItem.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -145,6 +128,8 @@
         <option value="$PROJECT_DIR$/src/components/componentLib.vue" />
         <option value="$PROJECT_DIR$/src/App.vue" />
         <option value="$PROJECT_DIR$/src/libs/element-ui.js" />
+        <option value="$PROJECT_DIR$/src/libs/Collapse.js" />
+        <option value="$PROJECT_DIR$/src/libs/CollapseItem.js" />
       </list>
     </option>
   </component>
@@ -694,12 +679,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1484553038377</updated>
-      <workItem from="1484553040255" duration="9450000" />
+      <workItem from="1484553040255" duration="14878000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9450000" />
+    <option name="totallyTimeSpent" value="14878000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="6" />
@@ -715,7 +700,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32893" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18168813" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -781,11 +766,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/libs/element-ui.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="534">
-          <caret line="792" column="4" selection-start-line="792" selection-start-column="4" selection-end-line="792" selection-end-column="4" />
+        <state relative-caret-position="360">
+          <caret line="1154" column="5" selection-start-line="1154" selection-start-column="5" selection-end-line="1154" selection-end-column="5" />
           <folding>
             <element signature="e#0#44#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/libs/Collapse.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="18" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/libs/CollapseItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
