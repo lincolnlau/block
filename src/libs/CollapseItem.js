@@ -13,6 +13,11 @@ export default {
       description: '面板标题',
       type: 'string'
     }
+  ],
+  slots: [
+    {
+      name: '-',
+      description: '可放置Dom元素以及组件'
+    }
   ]
-
 }
