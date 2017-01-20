@@ -37,13 +37,6 @@ export default {
       default: false
     },
     {
-      name: '',
-      description: '',
-      type: '',
-      default: '',
-      acceptValues:[]
-    },
-    {
       name: 'multiple-limit',
       description: '多选时用户最多可以选择的项目数，为 0 则不限制',
       type: 'number',
